@@ -1,0 +1,433 @@
+--- Starting bitbake server pid 23921 at 2018-07-03 02:31:51.798601 ---
+Started bitbake server pid 23921
+Entering server connection loop
+Accepting [<socket.socket fd=8, family=AddressFamily.AF_UNIX, type=SocketKind.SOCK_STREAM, proto=0, laddr=bitbake.sock>]
+Connecting Client
+Running command ['setFeatures', [2, 1]]
+Running command ['updateConfig', {'abort': True, 'force': False, 'invalidate_stamp': None, 'verbose': False, 'debug': 0, 'dry_run': False, 'dump_signatures': [], 'debug_domains': [], 'extra_assume_provided': [], 'profile': False, 'prefile': [], 'postfile': [], 'server_timeout': None}, {'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'USER': 'tarak', 'PWD': '/home/tarak/poky-rocko/meta-lpcmod/recipes-kernel', 'HOME': '/home/tarak', 'SSH_AGENT_PID': '1701', 'BBPATH': '/home/tarak/bbb/build', 'BB_ENV_EXTRAWHITE': 'ALL_PROXY BBPATH_EXTRA BB_NO_NETWORK BB_NUMBER_THREADS BB_SETSCENE_ENFORCE BB_SRCREV_POLICY DISTRO FTPS_PROXY FTP_PROXY GIT_PROXY_COMMAND HTTPS_PROXY HTTP_PROXY MACHINE NO_PROXY PARALLEL_MAKE SCREENDIR SDKMACHINE SOCKS5_PASSWD SOCKS5_USER SSH_AGENT_PID SSH_AUTH_SOCK STAMPS_DIR TCLIBC TCMODE all_proxy ftp_proxy ftps_proxy http_proxy https_proxy no_proxy ', 'no_proxy': 'localhost,127.0.0.0/8,::1', 'NO_PROXY': 'localhost,127.0.0.0/8,::1', 'TERM': 'xterm-256color', 'SHELL': '/bin/bash', 'LOGNAME': 'tarak', 'PATH': '/home/tarak/poky-rocko/scripts:/home/tarak/poky-rocko/bitbake/bin:/home/tarak/bin:/home/tarak/esp-open-sdk/xtensa-lx106-elf/bin/:/home/tarak/anaconda3/bin:/home/tarak/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin', 'LC_ALL': 'en_US.UTF-8', 'CLUTTER_IM_MODULE': 'xim', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'XDG_MENU_PREFIX': 'gnome-', 'LANG': 'en_CA.UTF-8', 'DISPLAY': ':0', 'OLDPWD': '/home/tarak/bbb/build/tmp/deploy/images/beaglebone', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'COLORTERM': 'truecolor', 'DESKTOP_AUTOSTART_ID': '109956d62d22d26d7a153058061650307700000015530007', 'USERNAME': 'tarak', 'XDG_VTNR': '1', 'XDG_SESSION_ID': '1', 'DESKTOP_SESSION': 'ubuntu', 'QT4_IM_MODULE': 'xim', 'TEXTDOMAINDIR': '/usr/share/locale/', 'GNOME_TERMINAL_SCREEN': '/org/gnome/Terminal/screen/5e9c0833_747a_4a8e_9fee_69bb8487135b', 'TEXTDOMAIN': 'im-config', 'QT_ACCESSIBILITY': '1', 'XDG_SESSION_TYPE': 'x11', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/local/share:/usr/share:/var/lib/snapd/desktop', 'QSYS_ROOTDIR': '/home/tarak/intelFPGA_lite/17.1/quartus/sopc_builder/bin', 'XDG_SESSION_DESKTOP': 'ubuntu', 'BUILDDIR': '/home/tarak/bbb/build', 'GTK_MODULES': 'gail:atk-bridge', 'WINDOWPATH': '1', 'VTE_VERSION': '5202', 'QT_IM_MODULE': 'ibus', 'XMODIFIERS': '@im=ibus', 'IM_CONFIG_PHASE': '2', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'GPG_AGENT_INFO': '/run/user/1000/gnupg/S.gpg-agent:0:1', 'GNOME_TERMINAL_SERVICE': ':1.68', 'XDG_SEAT': 'seat0', 'SHLVL': '1', 'GDMSESSION': 'ubuntu', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'XDG_RUNTIME_DIR': '/run/user/1000', 'XAUTHORITY': '/run/user/1000/gdm/Xauthority', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'SESSION_MANAGER': 'local/tarak-Aspire-E5-774G:@/tmp/.ICE-unix/1553,unix/tarak-Aspire-E5-774G:/tmp/.ICE-unix/1553', 'LESSOPEN': '| /usr/bin/lesspipe %s', 'GTK_IM_MODULE': 'ibus', '_': '/home/tarak/poky-rocko/scripts/recipetool'}, ['/home/tarak/poky-rocko/scripts/recipetool', 'appendsrcfile', '-wm', 'beaglebone', '/home/tarak/poky-rocko/meta-lpcmod/', 'virtual/kernel', '/home/tarak/Workspace/Beaglebone/git/Yocto_LPC_module/Device_tree/am335x-boneblack_v1.1.dts', 'arch//boot/dts/BB-SPI0-0A00.dts.dts']]
+Running command ['parseConfiguration']
+Running command ['dataStoreConnectorFindVar', None, 'BBPATH']
+Running command ['dataStoreConnectorFindVar', None, 'TOPDIR']
+Running command ['clientComplete']
+Connecting Client
+Disconnecting Client
+No timeout, exiting.
+Exiting
+--- Starting bitbake server pid 23952 at 2018-07-03 02:32:33.574744 ---
+Started bitbake server pid 23952
+Entering server connection loop
+Accepting [<socket.socket fd=8, family=AddressFamily.AF_UNIX, type=SocketKind.SOCK_STREAM, proto=0, laddr=bitbake.sock>]
+Connecting Client
+Running command ['setFeatures', [2, 1]]
+Running command ['updateConfig', {'abort': True, 'force': False, 'invalidate_stamp': None, 'verbose': False, 'debug': 0, 'dry_run': False, 'dump_signatures': [], 'debug_domains': [], 'extra_assume_provided': [], 'profile': False, 'prefile': [], 'postfile': [], 'server_timeout': None}, {'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'USER': 'tarak', 'PWD': '/home/tarak/poky-rocko/meta-lpcmod/recipes-kernel', 'HOME': '/home/tarak', 'SSH_AGENT_PID': '1701', 'BBPATH': '/home/tarak/bbb/build', 'BB_ENV_EXTRAWHITE': 'ALL_PROXY BBPATH_EXTRA BB_NO_NETWORK BB_NUMBER_THREADS BB_SETSCENE_ENFORCE BB_SRCREV_POLICY DISTRO FTPS_PROXY FTP_PROXY GIT_PROXY_COMMAND HTTPS_PROXY HTTP_PROXY MACHINE NO_PROXY PARALLEL_MAKE SCREENDIR SDKMACHINE SOCKS5_PASSWD SOCKS5_USER SSH_AGENT_PID SSH_AUTH_SOCK STAMPS_DIR TCLIBC TCMODE all_proxy ftp_proxy ftps_proxy http_proxy https_proxy no_proxy ', 'no_proxy': 'localhost,127.0.0.0/8,::1', 'NO_PROXY': 'localhost,127.0.0.0/8,::1', 'TERM': 'xterm-256color', 'SHELL': '/bin/bash', 'LOGNAME': 'tarak', 'PATH': '/home/tarak/poky-rocko/scripts:/home/tarak/poky-rocko/bitbake/bin:/home/tarak/bin:/home/tarak/esp-open-sdk/xtensa-lx106-elf/bin/:/home/tarak/anaconda3/bin:/home/tarak/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin', 'LC_ALL': 'en_US.UTF-8', 'CLUTTER_IM_MODULE': 'xim', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'XDG_MENU_PREFIX': 'gnome-', 'LANG': 'en_CA.UTF-8', 'DISPLAY': ':0', 'OLDPWD': '/home/tarak/bbb/build/tmp/deploy/images/beaglebone', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'COLORTERM': 'truecolor', 'DESKTOP_AUTOSTART_ID': '109956d62d22d26d7a153058061650307700000015530007', 'USERNAME': 'tarak', 'XDG_VTNR': '1', 'XDG_SESSION_ID': '1', 'DESKTOP_SESSION': 'ubuntu', 'QT4_IM_MODULE': 'xim', 'TEXTDOMAINDIR': '/usr/share/locale/', 'GNOME_TERMINAL_SCREEN': '/org/gnome/Terminal/screen/5e9c0833_747a_4a8e_9fee_69bb8487135b', 'TEXTDOMAIN': 'im-config', 'QT_ACCESSIBILITY': '1', 'XDG_SESSION_TYPE': 'x11', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/local/share:/usr/share:/var/lib/snapd/desktop', 'QSYS_ROOTDIR': '/home/tarak/intelFPGA_lite/17.1/quartus/sopc_builder/bin', 'XDG_SESSION_DESKTOP': 'ubuntu', 'BUILDDIR': '/home/tarak/bbb/build', 'GTK_MODULES': 'gail:atk-bridge', 'WINDOWPATH': '1', 'VTE_VERSION': '5202', 'QT_IM_MODULE': 'ibus', 'XMODIFIERS': '@im=ibus', 'IM_CONFIG_PHASE': '2', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'GPG_AGENT_INFO': '/run/user/1000/gnupg/S.gpg-agent:0:1', 'GNOME_TERMINAL_SERVICE': ':1.68', 'XDG_SEAT': 'seat0', 'SHLVL': '1', 'GDMSESSION': 'ubuntu', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'XDG_RUNTIME_DIR': '/run/user/1000', 'XAUTHORITY': '/run/user/1000/gdm/Xauthority', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'SESSION_MANAGER': 'local/tarak-Aspire-E5-774G:@/tmp/.ICE-unix/1553,unix/tarak-Aspire-E5-774G:/tmp/.ICE-unix/1553', 'LESSOPEN': '| /usr/bin/lesspipe %s', 'GTK_IM_MODULE': 'ibus', '_': '/home/tarak/poky-rocko/scripts/recipetool'}, ['/home/tarak/poky-rocko/scripts/recipetool', 'appendsrcfile', '-wm', 'beaglebone', '/home/tarak/poky-rocko/meta-lpcmod/', 'virtual/kernel', '/home/tarak/Workspace/Beaglebone/git/Yocto_LPC_module/Device_tree/BB-SPI0-0A00.dts', 'arch/boot/dts/BB-SPI0-0A00.dts']]
+Running command ['parseConfiguration']
+Running command ['dataStoreConnectorFindVar', None, 'BBPATH']
+Running command ['dataStoreConnectorFindVar', None, 'TOPDIR']
+Running command ['updateConfig', {'abort': True, 'force': False, 'invalidate_stamp': None, 'verbose': False, 'debug': 0, 'dry_run': False, 'dump_signatures': [], 'debug_domains': [], 'extra_assume_provided': [], 'profile': False, 'prefile': [], 'postfile': [], 'server_timeout': None}, {'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'USER': 'tarak', 'PWD': '/home/tarak/poky-rocko/meta-lpcmod/recipes-kernel', 'HOME': '/home/tarak', 'SSH_AGENT_PID': '1701', 'BBPATH': '/home/tarak/bbb/build', 'BB_ENV_EXTRAWHITE': 'ALL_PROXY BBPATH_EXTRA BB_NO_NETWORK BB_NUMBER_THREADS BB_SETSCENE_ENFORCE BB_SRCREV_POLICY DISTRO FTPS_PROXY FTP_PROXY GIT_PROXY_COMMAND HTTPS_PROXY HTTP_PROXY MACHINE NO_PROXY PARALLEL_MAKE SCREENDIR SDKMACHINE SOCKS5_PASSWD SOCKS5_USER SSH_AGENT_PID SSH_AUTH_SOCK STAMPS_DIR TCLIBC TCMODE all_proxy ftp_proxy ftps_proxy http_proxy https_proxy no_proxy ', 'no_proxy': 'localhost,127.0.0.0/8,::1', 'NO_PROXY': 'localhost,127.0.0.0/8,::1', 'TERM': 'xterm-256color', 'SHELL': '/bin/bash', 'LOGNAME': 'tarak', 'PATH': '/home/tarak/poky-rocko/scripts:/home/tarak/poky-rocko/bitbake/bin:/home/tarak/bin:/home/tarak/esp-open-sdk/xtensa-lx106-elf/bin/:/home/tarak/anaconda3/bin:/home/tarak/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin', 'LC_ALL': 'en_US.UTF-8', 'CLUTTER_IM_MODULE': 'xim', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'XDG_MENU_PREFIX': 'gnome-', 'LANG': 'en_CA.UTF-8', 'DISPLAY': ':0', 'OLDPWD': '/home/tarak/bbb/build/tmp/deploy/images/beaglebone', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'COLORTERM': 'truecolor', 'DESKTOP_AUTOSTART_ID': '109956d62d22d26d7a153058061650307700000015530007', 'USERNAME': 'tarak', 'XDG_VTNR': '1', 'XDG_SESSION_ID': '1', 'DESKTOP_SESSION': 'ubuntu', 'QT4_IM_MODULE': 'xim', 'TEXTDOMAINDIR': '/usr/share/locale/', 'GNOME_TERMINAL_SCREEN': '/org/gnome/Terminal/screen/5e9c0833_747a_4a8e_9fee_69bb8487135b', 'TEXTDOMAIN': 'im-config', 'QT_ACCESSIBILITY': '1', 'XDG_SESSION_TYPE': 'x11', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/local/share:/usr/share:/var/lib/snapd/desktop', 'QSYS_ROOTDIR': '/home/tarak/intelFPGA_lite/17.1/quartus/sopc_builder/bin', 'XDG_SESSION_DESKTOP': 'ubuntu', 'BUILDDIR': '/home/tarak/bbb/build', 'GTK_MODULES': 'gail:atk-bridge', 'WINDOWPATH': '1', 'VTE_VERSION': '5202', 'QT_IM_MODULE': 'ibus', 'XMODIFIERS': '@im=ibus', 'IM_CONFIG_PHASE': '2', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'GPG_AGENT_INFO': '/run/user/1000/gnupg/S.gpg-agent:0:1', 'GNOME_TERMINAL_SERVICE': ':1.68', 'XDG_SEAT': 'seat0', 'SHLVL': '1', 'GDMSESSION': 'ubuntu', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'XDG_RUNTIME_DIR': '/run/user/1000', 'XAUTHORITY': '/run/user/1000/gdm/Xauthority', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'SESSION_MANAGER': 'local/tarak-Aspire-E5-774G:@/tmp/.ICE-unix/1553,unix/tarak-Aspire-E5-774G:/tmp/.ICE-unix/1553', 'LESSOPEN': '| /usr/bin/lesspipe %s', 'GTK_IM_MODULE': 'ibus', '_': '/home/tarak/poky-rocko/scripts/recipetool'}, ['/home/tarak/poky-rocko/scripts/recipetool', 'appendsrcfile', '-wm', 'beaglebone', '/home/tarak/poky-rocko/meta-lpcmod/', 'virtual/kernel', '/home/tarak/Workspace/Beaglebone/git/Yocto_LPC_module/Device_tree/BB-SPI0-0A00.dts', 'arch/boot/dts/BB-SPI0-0A00.dts']]
+Running command ['getVariable', 'BBINCLUDELOGS']
+Running command ['getVariable', 'BBINCLUDELOGS_LINES']
+Running command ['getSetVariable', 'BB_CONSOLELOG']
+Running command ['getUIHandlerNum']
+Running command ['setEventMask', 1, 20, {}, ['bb.runqueue.runQueueExitWait', 'bb.event.LogExecTTY', 'logging.LogRecord', 'bb.build.TaskFailed', 'bb.build.TaskBase', 'bb.event.ParseStarted', 'bb.event.ParseProgress', 'bb.event.ParseCompleted', 'bb.event.CacheLoadStarted', 'bb.event.CacheLoadProgress', 'bb.event.CacheLoadCompleted', 'bb.command.CommandFailed', 'bb.command.CommandExit', 'bb.command.CommandCompleted', 'bb.cooker.CookerExit', 'bb.event.MultipleProviders', 'bb.event.NoProvider', 'bb.runqueue.sceneQueueTaskStarted', 'bb.runqueue.runQueueTaskStarted', 'bb.runqueue.runQueueTaskFailed', 'bb.runqueue.sceneQueueTaskFailed', 'bb.event.BuildBase', 'bb.build.TaskStarted', 'bb.build.TaskSucceeded', 'bb.build.TaskFailedSilent', 'bb.build.TaskProgress', 'bb.event.ProcessStarted', 'bb.event.ProcessProgress', 'bb.event.ProcessFinished']]
+Running command ['getVariable', 'BB_DEFAULT_TASK']
+Running command ['setConfig', 'cmd', 'build']
+Running command ['getVariable', 'BBTARGETS']
+Running command ['parseFiles']
+[1;33mWARNING[0m: [33mHost distribution "ubuntu-18.04" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.[0m
+Running command ['findBestProvider', 'virtual/kernel']
+Running command ['enableDataTracking']
+Running command ['parseRecipeFile', '/home/tarak/bbb/meta-bbb/recipes-kernel/linux/linux-stable_4.14.bb', True, None]
+Running command ['disableDataTracking']
+Running command ['dataStoreConnectorFindVar', 1, 'OVERRIDES']
+Running command ['dataStoreConnectorFindVar', 1, 'TARGET_OS']
+Running command ['dataStoreConnectorFindVar', 1, 'LIBCEXTENSION']
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'LIBCEXTENSION', "['', '-gnu'][(d.getVar('ABIEXTENSION') or '') != '']"]
+Running command ['dataStoreConnectorFindVar', 1, 'ABIEXTENSION']
+Running command ['dataStoreConnectorFindVar', 1, 'TRANSLATED_TARGET_ARCH']
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'TRANSLATED_TARGET_ARCH', 'd.getVar(\'TARGET_ARCH\').replace("_", "-")']
+Running command ['dataStoreConnectorFindVar', 1, 'BUILD_OS']
+Running command ['dataStoreConnectorFindVar', 1, 'PN']
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'PN', "bb.parse.BBHandler.vars_from_file(d.getVar('FILE', False),d)[0] or 'defaultpkgname'"]
+Running command ['dataStoreConnectorFindVar', 1, 'MACHINEOVERRIDES']
+Running command ['dataStoreConnectorFindVar', 1, 'SOC_FAMILY']
+Running command ['dataStoreConnectorFindVar', 1, 'MACHINE']
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'MACHINEOVERRIDES', "bb.utils.contains('TUNE_FEATURES', 'armv4', 'armv4:', '' ,d)"]
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'MACHINEOVERRIDES', "bb.utils.contains('TUNE_FEATURES', 'armv5', 'armv5:', '' ,d)"]
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'MACHINEOVERRIDES', "bb.utils.contains('TUNE_FEATURES', 'armv6', 'armv6:', '' ,d)"]
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'MACHINEOVERRIDES', "bb.utils.contains('TUNE_FEATURES', 'armv7a', 'armv7a:', '' ,d)"]
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'MACHINEOVERRIDES', "['', 'ti335x:']['ti335x' != '']"]
+Running command ['dataStoreConnectorFindVar', 1, 'DISTROOVERRIDES']
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'DISTROOVERRIDES', "d.getVar('DISTRO') or ''"]
+Running command ['dataStoreConnectorFindVar', 1, 'CLASSOVERRIDE']
+Running command ['dataStoreConnectorFindVar', 1, 'LIBCOVERRIDE']
+Running command ['dataStoreConnectorFindVar', 1, 'OVERRIDES']
+Running command ['dataStoreConnectorFindVar', 1, 'TARGET_OS']
+Running command ['dataStoreConnectorFindVar', 1, 'LIBCEXTENSION']
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'LIBCEXTENSION', "['', '-gnu'][(d.getVar('ABIEXTENSION') or '') != '']"]
+Running command ['dataStoreConnectorFindVar', 1, 'ABIEXTENSION']
+Running command ['dataStoreConnectorFindVar', 1, 'TRANSLATED_TARGET_ARCH']
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'TRANSLATED_TARGET_ARCH', 'd.getVar(\'TARGET_ARCH\').replace("_", "-")']
+Running command ['dataStoreConnectorFindVar', 1, 'BUILD_OS']
+Running command ['dataStoreConnectorFindVar', 1, 'PN']
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'PN', "bb.parse.BBHandler.vars_from_file(d.getVar('FILE', False),d)[0] or 'defaultpkgname'"]
+Running command ['dataStoreConnectorFindVar', 1, 'MACHINEOVERRIDES']
+Running command ['dataStoreConnectorFindVar', 1, 'SOC_FAMILY']
+Running command ['dataStoreConnectorFindVar', 1, 'MACHINE']
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'MACHINEOVERRIDES', "bb.utils.contains('TUNE_FEATURES', 'armv4', 'armv4:', '' ,d)"]
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'MACHINEOVERRIDES', "bb.utils.contains('TUNE_FEATURES', 'armv5', 'armv5:', '' ,d)"]
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'MACHINEOVERRIDES', "bb.utils.contains('TUNE_FEATURES', 'armv6', 'armv6:', '' ,d)"]
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'MACHINEOVERRIDES', "bb.utils.contains('TUNE_FEATURES', 'armv7a', 'armv7a:', '' ,d)"]
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'MACHINEOVERRIDES', "['', 'ti335x:']['ti335x' != '']"]
+Running command ['dataStoreConnectorFindVar', 1, 'DISTROOVERRIDES']
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'DISTROOVERRIDES', "d.getVar('DISTRO') or ''"]
+Running command ['dataStoreConnectorFindVar', 1, 'CLASSOVERRIDE']
+Running command ['dataStoreConnectorFindVar', 1, 'LIBCOVERRIDE']
+Running command ['dataStoreConnectorGetKeys', 1]
+Running command ['dataStoreConnectorFindVar', 1, 'S']
+Running command ['dataStoreConnectorFindVar', 1, 'WORKDIR']
+Running command ['dataStoreConnectorFindVar', 1, 'BASE_WORKDIR']
+Running command ['dataStoreConnectorFindVar', 1, 'TMPDIR']
+Running command ['dataStoreConnectorFindVar', 1, 'MULTIMACH_TARGET_SYS']
+Running command ['dataStoreConnectorFindVar', 1, 'PACKAGE_ARCH']
+Running command ['dataStoreConnectorFindVar', 1, 'MACHINE_ARCH']
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'MACHINE_ARCH', "[d.getVar('TUNE_PKGARCH'), d.getVar('MACHINE')][bool(d.getVar('MACHINE'))].replace('-', '_')"]
+Running command ['dataStoreConnectorFindVar', 1, 'TARGET_VENDOR']
+Running command ['dataStoreConnectorFindVar', 1, 'EXTENDPE']
+Running command ['dataStoreConnectorFindVar', 1, 'PE']
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'EXTENDPE', "['','_'][int(d.getVar('PE') or 0) > 0]"]
+Running command ['dataStoreConnectorFindVar', 1, 'PV']
+Running command ['dataStoreConnectorFindVar', 1, 'PR']
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'PR', "bb.parse.BBHandler.vars_from_file(d.getVar('FILE', False),d)[2] or 'r0'"]
+Running command ['dataStoreConnectorFindVar', 1, 'WORKDIR']
+Running command ['dataStoreConnectorFindVar', 1, 'SRC_URI']
+Running command ['dataStoreConnectorFindVar', 1, 'LINUX_VERSION']
+Running command ['dataStoreConnectorFindVar', 1, 'S']
+Running command ['dataStoreConnectorFindVar', 1, 'STAGING_KERNEL_DIR']
+Running command ['dataStoreConnectorFindVar', 1, 'FILE']
+Running command ['dataStoreConnectorFindVar', 1, 'BBFILES']
+Running command ['dataStoreConnectorFindVar', 1, 'LAYERDIR']
+Running command ['dataStoreConnectorFindVar', 1, 'TOPDIR']
+Running command ['dataStoreConnectorFindVar', 1, 'FILE']
+Running command ['dataStoreConnectorFindVar', 1, '__depends']
+Running command ['dataStoreConnectorFindVar', 1, '__depends']
+Running command ['dataStoreConnectorFindVar', 1, 'FILE']
+Running command ['dataStoreConnectorFindVar', 1, 'BBPATH']
+Running command ['dataStoreConnectorFindVar', 1, 'BBPATH']
+Running command ['dataStoreConnectorFindVar', 1, 'BBFILE_COLLECTIONS']
+Running command ['dataStoreConnectorFindVar', 1, 'BBFILE_COLLECTIONS']
+Running command ['dataStoreConnectorFindVar', 1, 'BBFILE_PATTERN_lpcmod']
+Running command ['dataStoreConnectorFindVar', 1, 'BBFILE_PRIORITY_lpcmod']
+Running command ['dataStoreConnectorFindVar', 1, 'BBLAYERS']
+Running command ['dataStoreConnectorFindVar', 1, 'HOME']
+Running command ['dataStoreConnectorFindVar', 1, 'PN']
+Running command ['clientComplete']
+Connecting Client
+Disconnecting Client
+No timeout, exiting.
+Exiting
+--- Starting bitbake server pid 11856 at 2018-07-03 02:45:08.140445 ---
+Started bitbake server pid 11856
+DEBUG: Found bblayers.conf (/home/tarak/bbb/build/conf/bblayers.conf)
+DEBUG: Adding layer /home/tarak/poky-rocko/meta
+DEBUG: Adding layer /home/tarak/poky-rocko/meta-poky
+DEBUG: Adding layer /home/tarak/poky-rocko/meta-openembedded/meta-oe
+DEBUG: Adding layer /home/tarak/poky-rocko/meta-openembedded/meta-networking
+DEBUG: Adding layer /home/tarak/poky-rocko/meta-openembedded/meta-python
+DEBUG: Adding layer /home/tarak/poky-rocko/meta-qt5
+DEBUG: Adding layer /home/tarak/bbb/meta-bbb
+DEBUG: Adding layer /home/tarak/poky-rocko/meta-lpcmod
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/bitbake.conf:741: including conf/abi_version.conf
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/bitbake.conf:742: including conf/site.conf
+DEBUG: CONF file 'conf/site.conf' not found
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/bitbake.conf:743: including conf/auto.conf
+DEBUG: CONF file 'conf/auto.conf' not found
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/bitbake.conf:744: including conf/local.conf
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/bitbake.conf:745: including conf/multiconfig/default.conf
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/bitbake.conf:746: including conf/machine/beaglebone.conf
+DEBUG: CONF /home/tarak/bbb/meta-bbb/conf/machine/beaglebone.conf:10: including conf/machine/include/soc-family.inc
+DEBUG: CONF /home/tarak/bbb/meta-bbb/conf/machine/beaglebone.conf:11: including conf/machine/include/tune-cortexa8.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/machine/include/tune-cortexa8.inc:3: including conf/machine/include/arm/arch-armv7a.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/machine/include/arm/arch-armv7a.inc:8: including conf/machine/include/arm/arch-armv6.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/machine/include/arm/arch-armv6.inc:8: including conf/machine/include/arm/arch-armv5-dsp.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/machine/include/arm/arch-armv5-dsp.inc:4: including conf/machine/include/arm/arch-armv5.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/machine/include/arm/arch-armv5.inc:8: including conf/machine/include/arm/arch-armv4.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/machine/include/arm/arch-armv4.inc:15: including conf/machine/include/arm/arch-arm.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/machine/include/arm/arch-armv4.inc:16: including conf/machine/include/arm/feature-arm-thumb.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/machine/include/arm/arch-armv5.inc:9: including conf/machine/include/arm/feature-arm-vfp.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/machine/include/arm/arch-armv7a.inc:9: including conf/machine/include/arm/feature-arm-neon.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/bitbake.conf:747: including conf/machine-sdk/x86_64.conf
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/bitbake.conf:748: including conf/distro/poky.conf
+DEBUG: CONF /home/tarak/poky-rocko/meta-poky/conf/distro/poky.conf:101: including conf/distro/include/poky-world-exclude.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta-poky/conf/distro/poky.conf:102: including conf/distro/include/no-static-libs.inc
+Entering server connection loop
+DEBUG: CONF /home/tarak/poky-rocko/meta-poky/conf/distro/poky.conf:103: including conf/distro/include/yocto-uninative.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/bitbake.conf:749: including conf/distro/defaultsetup.conf
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/distro/defaultsetup.conf:1: including conf/distro/include/default-providers.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/distro/defaultsetup.conf:2: including conf/distro/include/default-versions.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/distro/defaultsetup.conf:3: including conf/distro/include/default-distrovars.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/distro/defaultsetup.conf:4: including conf/distro/include/world-broken.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/distro/defaultsetup.conf:7: including conf/distro/include/tcmode-default.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/distro/include/tcmode-default.inc:71: including conf/distro/include/as-needed.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/distro/defaultsetup.conf:10: including conf/distro/include/tclibc-glibc.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/distro/defaultsetup.conf:12: including conf/distro/include/uninative-flags.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/bitbake.conf:750: including conf/documentation.conf
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/bitbake.conf:751: including conf/licenses.conf
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/bitbake.conf:752: including conf/sanity.conf
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/base.bbclass (from configuration INHERITs:0)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/patch.bbclass (from /home/tarak/poky-rocko/meta/classes/base.bbclass:4)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/terminal.bbclass (from /home/tarak/poky-rocko/meta/classes/patch.bbclass:11)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/staging.bbclass (from /home/tarak/poky-rocko/meta/classes/base.bbclass:5)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/mirrors.bbclass (from /home/tarak/poky-rocko/meta/classes/base.bbclass:7)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/utils.bbclass (from /home/tarak/poky-rocko/meta/classes/base.bbclass:8)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/utility-tasks.bbclass (from /home/tarak/poky-rocko/meta/classes/base.bbclass:9)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/metadata_scm.bbclass (from /home/tarak/poky-rocko/meta/classes/base.bbclass:10)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/logging.bbclass (from /home/tarak/poky-rocko/meta/classes/base.bbclass:11)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/extrausers.bbclass (from configuration INHERITs:0)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/useradd_base.bbclass (from /home/tarak/poky-rocko/meta/classes/extrausers.bbclass:16)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/rm_work.bbclass (from configuration INHERITs:0)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta-poky/classes/poky-sanity.bbclass (from configuration INHERITs:0)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/uninative.bbclass (from configuration INHERITs:0)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/package_ipk.bbclass (from configuration INHERITs:0)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/package.bbclass (from /home/tarak/poky-rocko/meta/classes/package_ipk.bbclass:1)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/packagedata.bbclass (from /home/tarak/poky-rocko/meta/classes/package.bbclass:41)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/chrpath.bbclass (from /home/tarak/poky-rocko/meta/classes/package.bbclass:42)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/insane.bbclass (from /home/tarak/poky-rocko/meta/classes/package.bbclass:45)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/image-mklibs.bbclass (from configuration INHERITs:0)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/linuxloader.bbclass (from /home/tarak/poky-rocko/meta/classes/image-mklibs.bbclass:5)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/image-prelink.bbclass (from configuration INHERITs:0)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/debian.bbclass (from configuration INHERITs:0)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/devshell.bbclass (from configuration INHERITs:0)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/sstate.bbclass (from configuration INHERITs:0)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/license.bbclass (from configuration INHERITs:0)
+Accepting [<socket.socket fd=8, family=AddressFamily.AF_UNIX, type=SocketKind.SOCK_STREAM, proto=0, laddr=bitbake.sock>]
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/remove-libtool.bbclass (from configuration INHERITs:0)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/blacklist.bbclass (from configuration INHERITs:0)
+Connecting Client
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/sanity.bbclass (from configuration INHERITs:0)
+DEBUG: Clearing SRCREV cache due to cache policy of: clear
+DEBUG: Using cache in '/home/tarak/bbb/build/cache/local_file_checksum_cache.dat'
+DEBUG: Using cache in '/home/tarak/bbb/build/cache/bb_codeparser.dat'
+DEBUG: Enabling uninative
+Running command ['setFeatures', [2]]
+Running command ['updateConfig', {'abort': True, 'force': False, 'invalidate_stamp': None, 'verbose': False, 'debug': 0, 'dry_run': False, 'dump_signatures': [], 'debug_domains': [], 'extra_assume_provided': [], 'profile': False, 'prefile': [], 'postfile': [], 'server_timeout': None}, {'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'USER': 'tarak', 'PWD': '/home/tarak/poky-rocko/meta-lpcmod/recipes-kernel', 'HOME': '/home/tarak', 'SSH_AGENT_PID': '1701', 'BBPATH': '/home/tarak/bbb/build', 'BB_ENV_EXTRAWHITE': 'ALL_PROXY BBPATH_EXTRA BB_NO_NETWORK BB_NUMBER_THREADS BB_SETSCENE_ENFORCE BB_SRCREV_POLICY DISTRO FTPS_PROXY FTP_PROXY GIT_PROXY_COMMAND HTTPS_PROXY HTTP_PROXY MACHINE NO_PROXY PARALLEL_MAKE SCREENDIR SDKMACHINE SOCKS5_PASSWD SOCKS5_USER SSH_AGENT_PID SSH_AUTH_SOCK STAMPS_DIR TCLIBC TCMODE all_proxy ftp_proxy ftps_proxy http_proxy https_proxy no_proxy ', 'no_proxy': 'localhost,127.0.0.0/8,::1', 'NO_PROXY': 'localhost,127.0.0.0/8,::1', 'TERM': 'xterm-256color', 'SHELL': '/bin/bash', 'LOGNAME': 'tarak', 'PATH': '/home/tarak/poky-rocko/scripts:/home/tarak/poky-rocko/bitbake/bin:/home/tarak/bin:/home/tarak/esp-open-sdk/xtensa-lx106-elf/bin/:/home/tarak/anaconda3/bin:/home/tarak/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin', 'LC_ALL': 'en_US.UTF-8', 'CLUTTER_IM_MODULE': 'xim', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'XDG_MENU_PREFIX': 'gnome-', 'LANG': 'en_CA.UTF-8', 'DISPLAY': ':0', 'OLDPWD': '/home/tarak/bbb/build/tmp/deploy/images/beaglebone', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'COLORTERM': 'truecolor', 'DESKTOP_AUTOSTART_ID': '109956d62d22d26d7a153058061650307700000015530007', 'USERNAME': 'tarak', 'XDG_VTNR': '1', 'XDG_SESSION_ID': '1', 'DESKTOP_SESSION': 'ubuntu', 'QT4_IM_MODULE': 'xim', 'TEXTDOMAINDIR': '/usr/share/locale/', 'GNOME_TERMINAL_SCREEN': '/org/gnome/Terminal/screen/5e9c0833_747a_4a8e_9fee_69bb8487135b', 'TEXTDOMAIN': 'im-config', 'QT_ACCESSIBILITY': '1', 'XDG_SESSION_TYPE': 'x11', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/local/share:/usr/share:/var/lib/snapd/desktop', 'QSYS_ROOTDIR': '/home/tarak/intelFPGA_lite/17.1/quartus/sopc_builder/bin', 'XDG_SESSION_DESKTOP': 'ubuntu', 'BUILDDIR': '/home/tarak/bbb/build', 'GTK_MODULES': 'gail:atk-bridge', 'WINDOWPATH': '1', 'VTE_VERSION': '5202', 'QT_IM_MODULE': 'ibus', 'XMODIFIERS': '@im=ibus', 'IM_CONFIG_PHASE': '2', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'GPG_AGENT_INFO': '/run/user/1000/gnupg/S.gpg-agent:0:1', 'GNOME_TERMINAL_SERVICE': ':1.68', 'XDG_SEAT': 'seat0', 'SHLVL': '1', 'GDMSESSION': 'ubuntu', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'XDG_RUNTIME_DIR': '/run/user/1000', 'XAUTHORITY': '/run/user/1000/gdm/Xauthority', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'SESSION_MANAGER': 'local/tarak-Aspire-E5-774G:@/tmp/.ICE-unix/1553,unix/tarak-Aspire-E5-774G:/tmp/.ICE-unix/1553', 'LESSOPEN': '| /usr/bin/lesspipe %s', 'GTK_IM_MODULE': 'ibus', '_': '/home/tarak/poky-rocko/bitbake/bin/bitbake'}, ['/home/tarak/poky-rocko/bitbake/bin/bitbake', 'console-image']]
+Running command ['getVariable', 'BBINCLUDELOGS']
+Running command ['getVariable', 'BBINCLUDELOGS_LINES']
+Running command ['getSetVariable', 'BB_CONSOLELOG']
+Running command ['getUIHandlerNum']
+Running command ['setEventMask', 1, 20, {}, ['bb.runqueue.runQueueExitWait', 'bb.event.LogExecTTY', 'logging.LogRecord', 'bb.build.TaskFailed', 'bb.build.TaskBase', 'bb.event.ParseStarted', 'bb.event.ParseProgress', 'bb.event.ParseCompleted', 'bb.event.CacheLoadStarted', 'bb.event.CacheLoadProgress', 'bb.event.CacheLoadCompleted', 'bb.command.CommandFailed', 'bb.command.CommandExit', 'bb.command.CommandCompleted', 'bb.cooker.CookerExit', 'bb.event.MultipleProviders', 'bb.event.NoProvider', 'bb.runqueue.sceneQueueTaskStarted', 'bb.runqueue.runQueueTaskStarted', 'bb.runqueue.runQueueTaskFailed', 'bb.runqueue.sceneQueueTaskFailed', 'bb.event.BuildBase', 'bb.build.TaskStarted', 'bb.build.TaskSucceeded', 'bb.build.TaskFailedSilent', 'bb.build.TaskProgress', 'bb.event.ProcessStarted', 'bb.event.ProcessProgress', 'bb.event.ProcessFinished']]
+Running command ['getVariable', 'BB_DEFAULT_TASK']
+Running command ['setConfig', 'cmd', 'build']
+Running command ['buildTargets', ['console-image'], 'build']
+Connecting Client
+Disconnecting Client
+No timeout, exiting.
+Exiting
+--- Starting bitbake server pid 32453 at 2018-07-03 03:10:13.048081 ---
+Started bitbake server pid 32453
+Entering server connection loop
+Accepting [<socket.socket fd=8, family=AddressFamily.AF_UNIX, type=SocketKind.SOCK_STREAM, proto=0, laddr=bitbake.sock>]
+Connecting Client
+Running command ['setFeatures', [2, 1]]
+Running command ['updateConfig', {'abort': True, 'force': False, 'invalidate_stamp': None, 'verbose': False, 'debug': 0, 'dry_run': False, 'dump_signatures': [], 'debug_domains': [], 'extra_assume_provided': [], 'profile': False, 'prefile': [], 'postfile': [], 'server_timeout': None}, {'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'USER': 'tarak', 'PWD': '/home/tarak/poky-rocko/meta-lpcmod/recipes-kernel', 'HOME': '/home/tarak', 'SSH_AGENT_PID': '1701', 'BBPATH': '/home/tarak/bbb/build', 'BB_ENV_EXTRAWHITE': 'ALL_PROXY BBPATH_EXTRA BB_NO_NETWORK BB_NUMBER_THREADS BB_SETSCENE_ENFORCE BB_SRCREV_POLICY DISTRO FTPS_PROXY FTP_PROXY GIT_PROXY_COMMAND HTTPS_PROXY HTTP_PROXY MACHINE NO_PROXY PARALLEL_MAKE SCREENDIR SDKMACHINE SOCKS5_PASSWD SOCKS5_USER SSH_AGENT_PID SSH_AUTH_SOCK STAMPS_DIR TCLIBC TCMODE all_proxy ftp_proxy ftps_proxy http_proxy https_proxy no_proxy ', 'no_proxy': 'localhost,127.0.0.0/8,::1', 'NO_PROXY': 'localhost,127.0.0.0/8,::1', 'TERM': 'xterm-256color', 'SHELL': '/bin/bash', 'LOGNAME': 'tarak', 'PATH': '/home/tarak/poky-rocko/scripts:/home/tarak/poky-rocko/bitbake/bin:/home/tarak/bin:/home/tarak/esp-open-sdk/xtensa-lx106-elf/bin/:/home/tarak/anaconda3/bin:/home/tarak/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin', 'LC_ALL': 'en_US.UTF-8', 'CLUTTER_IM_MODULE': 'xim', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'XDG_MENU_PREFIX': 'gnome-', 'LANG': 'en_CA.UTF-8', 'DISPLAY': ':0', 'OLDPWD': '/home/tarak/bbb/build/tmp/deploy/images/beaglebone', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'COLORTERM': 'truecolor', 'DESKTOP_AUTOSTART_ID': '109956d62d22d26d7a153058061650307700000015530007', 'USERNAME': 'tarak', 'XDG_VTNR': '1', 'XDG_SESSION_ID': '1', 'DESKTOP_SESSION': 'ubuntu', 'QT4_IM_MODULE': 'xim', 'TEXTDOMAINDIR': '/usr/share/locale/', 'GNOME_TERMINAL_SCREEN': '/org/gnome/Terminal/screen/5e9c0833_747a_4a8e_9fee_69bb8487135b', 'TEXTDOMAIN': 'im-config', 'QT_ACCESSIBILITY': '1', 'XDG_SESSION_TYPE': 'x11', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/local/share:/usr/share:/var/lib/snapd/desktop', 'QSYS_ROOTDIR': '/home/tarak/intelFPGA_lite/17.1/quartus/sopc_builder/bin', 'XDG_SESSION_DESKTOP': 'ubuntu', 'BUILDDIR': '/home/tarak/bbb/build', 'GTK_MODULES': 'gail:atk-bridge', 'WINDOWPATH': '1', 'VTE_VERSION': '5202', 'QT_IM_MODULE': 'ibus', 'XMODIFIERS': '@im=ibus', 'IM_CONFIG_PHASE': '2', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'GPG_AGENT_INFO': '/run/user/1000/gnupg/S.gpg-agent:0:1', 'GNOME_TERMINAL_SERVICE': ':1.68', 'XDG_SEAT': 'seat0', 'SHLVL': '1', 'GDMSESSION': 'ubuntu', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'XDG_RUNTIME_DIR': '/run/user/1000', 'XAUTHORITY': '/run/user/1000/gdm/Xauthority', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'SESSION_MANAGER': 'local/tarak-Aspire-E5-774G:@/tmp/.ICE-unix/1553,unix/tarak-Aspire-E5-774G:/tmp/.ICE-unix/1553', 'LESSOPEN': '| /usr/bin/lesspipe %s', 'GTK_IM_MODULE': 'ibus', '_': '/home/tarak/poky-rocko/scripts/recipetool'}, ['/home/tarak/poky-rocko/scripts/recipetool', 'appendsrcfile', '-wm', 'beaglebone', '/home/tarak/poky-rocko/meta-lpcmod/', 'virtual/kernel', '/home/tarak/Workspace/Beaglebone/git/Yocto_LPC_module/Device_tree/am335x-boneblack.dts', 'arch/boot/dts/am335x-boneblack.dts']]
+Running command ['parseConfiguration']
+Running command ['dataStoreConnectorFindVar', None, 'BBPATH']
+Running command ['dataStoreConnectorFindVar', None, 'TOPDIR']
+Running command ['updateConfig', {'abort': True, 'force': False, 'invalidate_stamp': None, 'verbose': False, 'debug': 0, 'dry_run': False, 'dump_signatures': [], 'debug_domains': [], 'extra_assume_provided': [], 'profile': False, 'prefile': [], 'postfile': [], 'server_timeout': None}, {'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'USER': 'tarak', 'PWD': '/home/tarak/poky-rocko/meta-lpcmod/recipes-kernel', 'HOME': '/home/tarak', 'SSH_AGENT_PID': '1701', 'BBPATH': '/home/tarak/bbb/build', 'BB_ENV_EXTRAWHITE': 'ALL_PROXY BBPATH_EXTRA BB_NO_NETWORK BB_NUMBER_THREADS BB_SETSCENE_ENFORCE BB_SRCREV_POLICY DISTRO FTPS_PROXY FTP_PROXY GIT_PROXY_COMMAND HTTPS_PROXY HTTP_PROXY MACHINE NO_PROXY PARALLEL_MAKE SCREENDIR SDKMACHINE SOCKS5_PASSWD SOCKS5_USER SSH_AGENT_PID SSH_AUTH_SOCK STAMPS_DIR TCLIBC TCMODE all_proxy ftp_proxy ftps_proxy http_proxy https_proxy no_proxy ', 'no_proxy': 'localhost,127.0.0.0/8,::1', 'NO_PROXY': 'localhost,127.0.0.0/8,::1', 'TERM': 'xterm-256color', 'SHELL': '/bin/bash', 'LOGNAME': 'tarak', 'PATH': '/home/tarak/poky-rocko/scripts:/home/tarak/poky-rocko/bitbake/bin:/home/tarak/bin:/home/tarak/esp-open-sdk/xtensa-lx106-elf/bin/:/home/tarak/anaconda3/bin:/home/tarak/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin', 'LC_ALL': 'en_US.UTF-8', 'CLUTTER_IM_MODULE': 'xim', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'XDG_MENU_PREFIX': 'gnome-', 'LANG': 'en_CA.UTF-8', 'DISPLAY': ':0', 'OLDPWD': '/home/tarak/bbb/build/tmp/deploy/images/beaglebone', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'COLORTERM': 'truecolor', 'DESKTOP_AUTOSTART_ID': '109956d62d22d26d7a153058061650307700000015530007', 'USERNAME': 'tarak', 'XDG_VTNR': '1', 'XDG_SESSION_ID': '1', 'DESKTOP_SESSION': 'ubuntu', 'QT4_IM_MODULE': 'xim', 'TEXTDOMAINDIR': '/usr/share/locale/', 'GNOME_TERMINAL_SCREEN': '/org/gnome/Terminal/screen/5e9c0833_747a_4a8e_9fee_69bb8487135b', 'TEXTDOMAIN': 'im-config', 'QT_ACCESSIBILITY': '1', 'XDG_SESSION_TYPE': 'x11', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/local/share:/usr/share:/var/lib/snapd/desktop', 'QSYS_ROOTDIR': '/home/tarak/intelFPGA_lite/17.1/quartus/sopc_builder/bin', 'XDG_SESSION_DESKTOP': 'ubuntu', 'BUILDDIR': '/home/tarak/bbb/build', 'GTK_MODULES': 'gail:atk-bridge', 'WINDOWPATH': '1', 'VTE_VERSION': '5202', 'QT_IM_MODULE': 'ibus', 'XMODIFIERS': '@im=ibus', 'IM_CONFIG_PHASE': '2', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'GPG_AGENT_INFO': '/run/user/1000/gnupg/S.gpg-agent:0:1', 'GNOME_TERMINAL_SERVICE': ':1.68', 'XDG_SEAT': 'seat0', 'SHLVL': '1', 'GDMSESSION': 'ubuntu', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'XDG_RUNTIME_DIR': '/run/user/1000', 'XAUTHORITY': '/run/user/1000/gdm/Xauthority', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'SESSION_MANAGER': 'local/tarak-Aspire-E5-774G:@/tmp/.ICE-unix/1553,unix/tarak-Aspire-E5-774G:/tmp/.ICE-unix/1553', 'LESSOPEN': '| /usr/bin/lesspipe %s', 'GTK_IM_MODULE': 'ibus', '_': '/home/tarak/poky-rocko/scripts/recipetool'}, ['/home/tarak/poky-rocko/scripts/recipetool', 'appendsrcfile', '-wm', 'beaglebone', '/home/tarak/poky-rocko/meta-lpcmod/', 'virtual/kernel', '/home/tarak/Workspace/Beaglebone/git/Yocto_LPC_module/Device_tree/am335x-boneblack.dts', 'arch/boot/dts/am335x-boneblack.dts']]
+Running command ['getVariable', 'BBINCLUDELOGS']
+Running command ['getVariable', 'BBINCLUDELOGS_LINES']
+Running command ['getSetVariable', 'BB_CONSOLELOG']
+Running command ['getUIHandlerNum']
+Running command ['setEventMask', 1, 20, {}, ['bb.runqueue.runQueueExitWait', 'bb.event.LogExecTTY', 'logging.LogRecord', 'bb.build.TaskFailed', 'bb.build.TaskBase', 'bb.event.ParseStarted', 'bb.event.ParseProgress', 'bb.event.ParseCompleted', 'bb.event.CacheLoadStarted', 'bb.event.CacheLoadProgress', 'bb.event.CacheLoadCompleted', 'bb.command.CommandFailed', 'bb.command.CommandExit', 'bb.command.CommandCompleted', 'bb.cooker.CookerExit', 'bb.event.MultipleProviders', 'bb.event.NoProvider', 'bb.runqueue.sceneQueueTaskStarted', 'bb.runqueue.runQueueTaskStarted', 'bb.runqueue.runQueueTaskFailed', 'bb.runqueue.sceneQueueTaskFailed', 'bb.event.BuildBase', 'bb.build.TaskStarted', 'bb.build.TaskSucceeded', 'bb.build.TaskFailedSilent', 'bb.build.TaskProgress', 'bb.event.ProcessStarted', 'bb.event.ProcessProgress', 'bb.event.ProcessFinished']]
+Running command ['getVariable', 'BB_DEFAULT_TASK']
+Running command ['setConfig', 'cmd', 'build']
+Running command ['getVariable', 'BBTARGETS']
+Running command ['parseFiles']
+[1;33mWARNING[0m: [33mHost distribution "ubuntu-18.04" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.[0m
+Running command ['findBestProvider', 'virtual/kernel']
+Running command ['enableDataTracking']
+Running command ['parseRecipeFile', '/home/tarak/bbb/meta-bbb/recipes-kernel/linux/linux-stable_4.14.bb', True, None]
+Running command ['disableDataTracking']
+Running command ['dataStoreConnectorFindVar', 1, 'OVERRIDES']
+Running command ['dataStoreConnectorFindVar', 1, 'TARGET_OS']
+Running command ['dataStoreConnectorFindVar', 1, 'LIBCEXTENSION']
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'LIBCEXTENSION', "['', '-gnu'][(d.getVar('ABIEXTENSION') or '') != '']"]
+Running command ['dataStoreConnectorFindVar', 1, 'ABIEXTENSION']
+Running command ['dataStoreConnectorFindVar', 1, 'TRANSLATED_TARGET_ARCH']
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'TRANSLATED_TARGET_ARCH', 'd.getVar(\'TARGET_ARCH\').replace("_", "-")']
+Running command ['dataStoreConnectorFindVar', 1, 'BUILD_OS']
+Running command ['dataStoreConnectorFindVar', 1, 'PN']
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'PN', "bb.parse.BBHandler.vars_from_file(d.getVar('FILE', False),d)[0] or 'defaultpkgname'"]
+Running command ['dataStoreConnectorFindVar', 1, 'MACHINEOVERRIDES']
+Running command ['dataStoreConnectorFindVar', 1, 'SOC_FAMILY']
+Running command ['dataStoreConnectorFindVar', 1, 'MACHINE']
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'MACHINEOVERRIDES', "bb.utils.contains('TUNE_FEATURES', 'armv4', 'armv4:', '' ,d)"]
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'MACHINEOVERRIDES', "bb.utils.contains('TUNE_FEATURES', 'armv5', 'armv5:', '' ,d)"]
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'MACHINEOVERRIDES', "bb.utils.contains('TUNE_FEATURES', 'armv6', 'armv6:', '' ,d)"]
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'MACHINEOVERRIDES', "bb.utils.contains('TUNE_FEATURES', 'armv7a', 'armv7a:', '' ,d)"]
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'MACHINEOVERRIDES', "['', 'ti335x:']['ti335x' != '']"]
+Running command ['dataStoreConnectorFindVar', 1, 'DISTROOVERRIDES']
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'DISTROOVERRIDES', "d.getVar('DISTRO') or ''"]
+Running command ['dataStoreConnectorFindVar', 1, 'CLASSOVERRIDE']
+Running command ['dataStoreConnectorFindVar', 1, 'LIBCOVERRIDE']
+Running command ['dataStoreConnectorFindVar', 1, 'OVERRIDES']
+Running command ['dataStoreConnectorFindVar', 1, 'TARGET_OS']
+Running command ['dataStoreConnectorFindVar', 1, 'LIBCEXTENSION']
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'LIBCEXTENSION', "['', '-gnu'][(d.getVar('ABIEXTENSION') or '') != '']"]
+Running command ['dataStoreConnectorFindVar', 1, 'ABIEXTENSION']
+Running command ['dataStoreConnectorFindVar', 1, 'TRANSLATED_TARGET_ARCH']
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'TRANSLATED_TARGET_ARCH', 'd.getVar(\'TARGET_ARCH\').replace("_", "-")']
+Running command ['dataStoreConnectorFindVar', 1, 'BUILD_OS']
+Running command ['dataStoreConnectorFindVar', 1, 'PN']
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'PN', "bb.parse.BBHandler.vars_from_file(d.getVar('FILE', False),d)[0] or 'defaultpkgname'"]
+Running command ['dataStoreConnectorFindVar', 1, 'MACHINEOVERRIDES']
+Running command ['dataStoreConnectorFindVar', 1, 'SOC_FAMILY']
+Running command ['dataStoreConnectorFindVar', 1, 'MACHINE']
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'MACHINEOVERRIDES', "bb.utils.contains('TUNE_FEATURES', 'armv4', 'armv4:', '' ,d)"]
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'MACHINEOVERRIDES', "bb.utils.contains('TUNE_FEATURES', 'armv5', 'armv5:', '' ,d)"]
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'MACHINEOVERRIDES', "bb.utils.contains('TUNE_FEATURES', 'armv6', 'armv6:', '' ,d)"]
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'MACHINEOVERRIDES', "bb.utils.contains('TUNE_FEATURES', 'armv7a', 'armv7a:', '' ,d)"]
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'MACHINEOVERRIDES', "['', 'ti335x:']['ti335x' != '']"]
+Running command ['dataStoreConnectorFindVar', 1, 'DISTROOVERRIDES']
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'DISTROOVERRIDES', "d.getVar('DISTRO') or ''"]
+Running command ['dataStoreConnectorFindVar', 1, 'CLASSOVERRIDE']
+Running command ['dataStoreConnectorFindVar', 1, 'LIBCOVERRIDE']
+Running command ['dataStoreConnectorGetKeys', 1]
+Running command ['dataStoreConnectorFindVar', 1, 'S']
+Running command ['dataStoreConnectorFindVar', 1, 'WORKDIR']
+Running command ['dataStoreConnectorFindVar', 1, 'BASE_WORKDIR']
+Running command ['dataStoreConnectorFindVar', 1, 'TMPDIR']
+Running command ['dataStoreConnectorFindVar', 1, 'MULTIMACH_TARGET_SYS']
+Running command ['dataStoreConnectorFindVar', 1, 'PACKAGE_ARCH']
+Running command ['dataStoreConnectorFindVar', 1, 'MACHINE_ARCH']
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'MACHINE_ARCH', "[d.getVar('TUNE_PKGARCH'), d.getVar('MACHINE')][bool(d.getVar('MACHINE'))].replace('-', '_')"]
+Running command ['dataStoreConnectorFindVar', 1, 'TARGET_VENDOR']
+Running command ['dataStoreConnectorFindVar', 1, 'EXTENDPE']
+Running command ['dataStoreConnectorFindVar', 1, 'PE']
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'EXTENDPE', "['','_'][int(d.getVar('PE') or 0) > 0]"]
+Running command ['dataStoreConnectorFindVar', 1, 'PV']
+Running command ['dataStoreConnectorFindVar', 1, 'PR']
+Running command ['dataStoreConnectorExpandPythonRef', [('_remote_data', {'_content': 1})], 'PR', "bb.parse.BBHandler.vars_from_file(d.getVar('FILE', False),d)[2] or 'r0'"]
+Running command ['dataStoreConnectorFindVar', 1, 'WORKDIR']
+Running command ['dataStoreConnectorFindVar', 1, 'SRC_URI']
+Running command ['dataStoreConnectorFindVar', 1, 'LINUX_VERSION']
+Running command ['dataStoreConnectorFindVar', 1, 'S']
+Running command ['dataStoreConnectorFindVar', 1, 'STAGING_KERNEL_DIR']
+Running command ['dataStoreConnectorFindVar', 1, 'FILE']
+Running command ['dataStoreConnectorFindVar', 1, 'BBFILES']
+Running command ['dataStoreConnectorFindVar', 1, 'LAYERDIR']
+Running command ['dataStoreConnectorFindVar', 1, 'TOPDIR']
+Running command ['dataStoreConnectorFindVar', 1, 'FILE']
+Running command ['dataStoreConnectorFindVar', 1, '__depends']
+Running command ['dataStoreConnectorFindVar', 1, '__depends']
+Running command ['dataStoreConnectorFindVar', 1, 'FILE']
+Running command ['dataStoreConnectorFindVar', 1, 'BBPATH']
+Running command ['dataStoreConnectorFindVar', 1, 'BBPATH']
+Running command ['dataStoreConnectorFindVar', 1, 'BBFILE_COLLECTIONS']
+Running command ['dataStoreConnectorFindVar', 1, 'BBFILE_COLLECTIONS']
+Running command ['dataStoreConnectorFindVar', 1, 'BBFILE_PATTERN_lpcmod']
+Running command ['dataStoreConnectorFindVar', 1, 'BBFILE_PRIORITY_lpcmod']
+Running command ['dataStoreConnectorFindVar', 1, 'BBLAYERS']
+Running command ['dataStoreConnectorFindVar', 1, 'HOME']
+Running command ['dataStoreConnectorFindVar', 1, 'PN']
+Running command ['clientComplete']
+Connecting Client
+Disconnecting Client
+No timeout, exiting.
+Exiting
+--- Starting bitbake server pid 32553 at 2018-07-03 03:12:16.110384 ---
+Started bitbake server pid 32553
+DEBUG: Found bblayers.conf (/home/tarak/bbb/build/conf/bblayers.conf)
+DEBUG: Adding layer /home/tarak/poky-rocko/meta
+DEBUG: Adding layer /home/tarak/poky-rocko/meta-poky
+DEBUG: Adding layer /home/tarak/poky-rocko/meta-openembedded/meta-oe
+DEBUG: Adding layer /home/tarak/poky-rocko/meta-openembedded/meta-networking
+DEBUG: Adding layer /home/tarak/poky-rocko/meta-openembedded/meta-python
+DEBUG: Adding layer /home/tarak/poky-rocko/meta-qt5
+DEBUG: Adding layer /home/tarak/bbb/meta-bbb
+DEBUG: Adding layer /home/tarak/poky-rocko/meta-lpcmod
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/bitbake.conf:741: including conf/abi_version.conf
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/bitbake.conf:742: including conf/site.conf
+DEBUG: CONF file 'conf/site.conf' not found
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/bitbake.conf:743: including conf/auto.conf
+DEBUG: CONF file 'conf/auto.conf' not found
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/bitbake.conf:744: including conf/local.conf
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/bitbake.conf:745: including conf/multiconfig/default.conf
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/bitbake.conf:746: including conf/machine/beaglebone.conf
+DEBUG: CONF /home/tarak/bbb/meta-bbb/conf/machine/beaglebone.conf:10: including conf/machine/include/soc-family.inc
+DEBUG: CONF /home/tarak/bbb/meta-bbb/conf/machine/beaglebone.conf:11: including conf/machine/include/tune-cortexa8.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/machine/include/tune-cortexa8.inc:3: including conf/machine/include/arm/arch-armv7a.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/machine/include/arm/arch-armv7a.inc:8: including conf/machine/include/arm/arch-armv6.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/machine/include/arm/arch-armv6.inc:8: including conf/machine/include/arm/arch-armv5-dsp.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/machine/include/arm/arch-armv5-dsp.inc:4: including conf/machine/include/arm/arch-armv5.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/machine/include/arm/arch-armv5.inc:8: including conf/machine/include/arm/arch-armv4.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/machine/include/arm/arch-armv4.inc:15: including conf/machine/include/arm/arch-arm.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/machine/include/arm/arch-armv4.inc:16: including conf/machine/include/arm/feature-arm-thumb.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/machine/include/arm/arch-armv5.inc:9: including conf/machine/include/arm/feature-arm-vfp.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/machine/include/arm/arch-armv7a.inc:9: including conf/machine/include/arm/feature-arm-neon.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/bitbake.conf:747: including conf/machine-sdk/x86_64.conf
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/bitbake.conf:748: including conf/distro/poky.conf
+DEBUG: CONF /home/tarak/poky-rocko/meta-poky/conf/distro/poky.conf:101: including conf/distro/include/poky-world-exclude.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta-poky/conf/distro/poky.conf:102: including conf/distro/include/no-static-libs.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta-poky/conf/distro/poky.conf:103: including conf/distro/include/yocto-uninative.inc
+Entering server connection loop
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/bitbake.conf:749: including conf/distro/defaultsetup.conf
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/distro/defaultsetup.conf:1: including conf/distro/include/default-providers.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/distro/defaultsetup.conf:2: including conf/distro/include/default-versions.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/distro/defaultsetup.conf:3: including conf/distro/include/default-distrovars.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/distro/defaultsetup.conf:4: including conf/distro/include/world-broken.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/distro/defaultsetup.conf:7: including conf/distro/include/tcmode-default.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/distro/include/tcmode-default.inc:71: including conf/distro/include/as-needed.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/distro/defaultsetup.conf:10: including conf/distro/include/tclibc-glibc.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/distro/defaultsetup.conf:12: including conf/distro/include/uninative-flags.inc
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/bitbake.conf:750: including conf/documentation.conf
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/bitbake.conf:751: including conf/licenses.conf
+DEBUG: CONF /home/tarak/poky-rocko/meta/conf/bitbake.conf:752: including conf/sanity.conf
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/base.bbclass (from configuration INHERITs:0)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/patch.bbclass (from /home/tarak/poky-rocko/meta/classes/base.bbclass:4)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/terminal.bbclass (from /home/tarak/poky-rocko/meta/classes/patch.bbclass:11)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/staging.bbclass (from /home/tarak/poky-rocko/meta/classes/base.bbclass:5)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/mirrors.bbclass (from /home/tarak/poky-rocko/meta/classes/base.bbclass:7)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/utils.bbclass (from /home/tarak/poky-rocko/meta/classes/base.bbclass:8)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/utility-tasks.bbclass (from /home/tarak/poky-rocko/meta/classes/base.bbclass:9)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/metadata_scm.bbclass (from /home/tarak/poky-rocko/meta/classes/base.bbclass:10)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/logging.bbclass (from /home/tarak/poky-rocko/meta/classes/base.bbclass:11)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/extrausers.bbclass (from configuration INHERITs:0)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/useradd_base.bbclass (from /home/tarak/poky-rocko/meta/classes/extrausers.bbclass:16)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/rm_work.bbclass (from configuration INHERITs:0)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta-poky/classes/poky-sanity.bbclass (from configuration INHERITs:0)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/uninative.bbclass (from configuration INHERITs:0)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/package_ipk.bbclass (from configuration INHERITs:0)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/package.bbclass (from /home/tarak/poky-rocko/meta/classes/package_ipk.bbclass:1)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/packagedata.bbclass (from /home/tarak/poky-rocko/meta/classes/package.bbclass:41)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/chrpath.bbclass (from /home/tarak/poky-rocko/meta/classes/package.bbclass:42)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/insane.bbclass (from /home/tarak/poky-rocko/meta/classes/package.bbclass:45)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/image-mklibs.bbclass (from configuration INHERITs:0)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/linuxloader.bbclass (from /home/tarak/poky-rocko/meta/classes/image-mklibs.bbclass:5)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/image-prelink.bbclass (from configuration INHERITs:0)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/debian.bbclass (from configuration INHERITs:0)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/devshell.bbclass (from configuration INHERITs:0)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/sstate.bbclass (from configuration INHERITs:0)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/license.bbclass (from configuration INHERITs:0)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/remove-libtool.bbclass (from configuration INHERITs:0)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/blacklist.bbclass (from configuration INHERITs:0)
+DEBUG: Inheriting /home/tarak/poky-rocko/meta/classes/sanity.bbclass (from configuration INHERITs:0)
+Accepting [<socket.socket fd=8, family=AddressFamily.AF_UNIX, type=SocketKind.SOCK_STREAM, proto=0, laddr=bitbake.sock>]
+DEBUG: Clearing SRCREV cache due to cache policy of: clear
+Connecting Client
+DEBUG: Using cache in '/home/tarak/bbb/build/cache/local_file_checksum_cache.dat'
+DEBUG: Using cache in '/home/tarak/bbb/build/cache/bb_codeparser.dat'
+DEBUG: Enabling uninative
+Running command ['setFeatures', [2]]
+Running command ['updateConfig', {'abort': True, 'force': False, 'invalidate_stamp': None, 'verbose': False, 'debug': 0, 'dry_run': False, 'dump_signatures': [], 'debug_domains': [], 'extra_assume_provided': [], 'profile': False, 'prefile': [], 'postfile': [], 'server_timeout': None}, {'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'USER': 'tarak', 'PWD': '/home/tarak/poky-rocko/meta-lpcmod/recipes-kernel', 'HOME': '/home/tarak', 'SSH_AGENT_PID': '1701', 'BBPATH': '/home/tarak/bbb/build', 'BB_ENV_EXTRAWHITE': 'ALL_PROXY BBPATH_EXTRA BB_NO_NETWORK BB_NUMBER_THREADS BB_SETSCENE_ENFORCE BB_SRCREV_POLICY DISTRO FTPS_PROXY FTP_PROXY GIT_PROXY_COMMAND HTTPS_PROXY HTTP_PROXY MACHINE NO_PROXY PARALLEL_MAKE SCREENDIR SDKMACHINE SOCKS5_PASSWD SOCKS5_USER SSH_AGENT_PID SSH_AUTH_SOCK STAMPS_DIR TCLIBC TCMODE all_proxy ftp_proxy ftps_proxy http_proxy https_proxy no_proxy ', 'no_proxy': 'localhost,127.0.0.0/8,::1', 'NO_PROXY': 'localhost,127.0.0.0/8,::1', 'TERM': 'xterm-256color', 'SHELL': '/bin/bash', 'LOGNAME': 'tarak', 'PATH': '/home/tarak/poky-rocko/scripts:/home/tarak/poky-rocko/bitbake/bin:/home/tarak/bin:/home/tarak/esp-open-sdk/xtensa-lx106-elf/bin/:/home/tarak/anaconda3/bin:/home/tarak/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin', 'LC_ALL': 'en_US.UTF-8', 'CLUTTER_IM_MODULE': 'xim', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'XDG_MENU_PREFIX': 'gnome-', 'LANG': 'en_CA.UTF-8', 'DISPLAY': ':0', 'OLDPWD': '/home/tarak/poky-rocko/meta-lpcmod/recipes-kernel/linux', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'COLORTERM': 'truecolor', 'DESKTOP_AUTOSTART_ID': '109956d62d22d26d7a153058061650307700000015530007', 'USERNAME': 'tarak', 'XDG_VTNR': '1', 'XDG_SESSION_ID': '1', 'DESKTOP_SESSION': 'ubuntu', 'QT4_IM_MODULE': 'xim', 'TEXTDOMAINDIR': '/usr/share/locale/', 'GNOME_TERMINAL_SCREEN': '/org/gnome/Terminal/screen/5e9c0833_747a_4a8e_9fee_69bb8487135b', 'TEXTDOMAIN': 'im-config', 'QT_ACCESSIBILITY': '1', 'XDG_SESSION_TYPE': 'x11', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/local/share:/usr/share:/var/lib/snapd/desktop', 'QSYS_ROOTDIR': '/home/tarak/intelFPGA_lite/17.1/quartus/sopc_builder/bin', 'XDG_SESSION_DESKTOP': 'ubuntu', 'BUILDDIR': '/home/tarak/bbb/build', 'GTK_MODULES': 'gail:atk-bridge', 'WINDOWPATH': '1', 'VTE_VERSION': '5202', 'QT_IM_MODULE': 'ibus', 'XMODIFIERS': '@im=ibus', 'IM_CONFIG_PHASE': '2', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'GPG_AGENT_INFO': '/run/user/1000/gnupg/S.gpg-agent:0:1', 'GNOME_TERMINAL_SERVICE': ':1.68', 'XDG_SEAT': 'seat0', 'SHLVL': '1', 'GDMSESSION': 'ubuntu', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'XDG_RUNTIME_DIR': '/run/user/1000', 'XAUTHORITY': '/run/user/1000/gdm/Xauthority', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'SESSION_MANAGER': 'local/tarak-Aspire-E5-774G:@/tmp/.ICE-unix/1553,unix/tarak-Aspire-E5-774G:/tmp/.ICE-unix/1553', 'LESSOPEN': '| /usr/bin/lesspipe %s', 'GTK_IM_MODULE': 'ibus', '_': '/home/tarak/poky-rocko/bitbake/bin/bitbake'}, ['/home/tarak/poky-rocko/bitbake/bin/bitbake', 'console-image']]
+Running command ['getVariable', 'BBINCLUDELOGS']
+Running command ['getVariable', 'BBINCLUDELOGS_LINES']
+Running command ['getSetVariable', 'BB_CONSOLELOG']
+Running command ['getUIHandlerNum']
+Running command ['setEventMask', 1, 20, {}, ['bb.runqueue.runQueueExitWait', 'bb.event.LogExecTTY', 'logging.LogRecord', 'bb.build.TaskFailed', 'bb.build.TaskBase', 'bb.event.ParseStarted', 'bb.event.ParseProgress', 'bb.event.ParseCompleted', 'bb.event.CacheLoadStarted', 'bb.event.CacheLoadProgress', 'bb.event.CacheLoadCompleted', 'bb.command.CommandFailed', 'bb.command.CommandExit', 'bb.command.CommandCompleted', 'bb.cooker.CookerExit', 'bb.event.MultipleProviders', 'bb.event.NoProvider', 'bb.runqueue.sceneQueueTaskStarted', 'bb.runqueue.runQueueTaskStarted', 'bb.runqueue.runQueueTaskFailed', 'bb.runqueue.sceneQueueTaskFailed', 'bb.event.BuildBase', 'bb.build.TaskStarted', 'bb.build.TaskSucceeded', 'bb.build.TaskFailedSilent', 'bb.build.TaskProgress', 'bb.event.ProcessStarted', 'bb.event.ProcessProgress', 'bb.event.ProcessFinished']]
+Running command ['getVariable', 'BB_DEFAULT_TASK']
+Running command ['setConfig', 'cmd', 'build']
+Running command ['buildTargets', ['console-image'], 'build']
+Connecting Client
+Disconnecting Client
+No timeout, exiting.
+Exiting
