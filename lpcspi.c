@@ -11,7 +11,10 @@
 #include <linux/spi/spi.h>
 #include <linux/spi/spidev.h>
 #include <linux/uaccess.h>
-//--------------------------------------------------------------------------------//
+
+//------------------------------------------------------------------------------------------------------------------------------//
+
+
 #define SPI_MODE_MASK (SPI_CPHA|SPI_CPOL|SPI_CS_HIGH|SPI_LSB_FIRST|SPI_3WIRE|SPI_LOOP|SPI_NO_CS|SPI_READY|SPI_TX_DUAL|SPI_TX_QUAD|SPI_RX_DUAL \
 		|SPI_RX_QUAD)
 
@@ -29,7 +32,7 @@ struct spidev_data {
 
 	u8			*rx_buffer;
 	u32			speed_hz;
-};
+};list_head
 
 static ssize_t spidev_sync(struct spidev_data*, struct spi_message*);
 
@@ -38,7 +41,10 @@ static DEFINE_MUTEX(device_list_lock);
 static unsigned bufsiz = 1024;
 static struct class *spidev_class;
 module_param(bufsiz, uint, S_IRUGO);
-MODULE_PARM_DESC(bufsiz,"wifhcfiasfb");
+MODULE_PARM_DESC(bufsiz,"lpc-parmeter");
+
+
+
 
 //-----------------------------------------------------------------------------------------------------------------------------//
 static struct spi_ioc_transfer * spidev_get_ioc_message(unsigned int cmd,struct spi_ioc_transfer __user *u_ioc, unsigned *n_ioc)
@@ -53,7 +59,7 @@ static struct spi_ioc_transfer * spidev_get_ioc_message(unsigned int cmd,struct 
 	 *	IOCTL_WR_EXAMPLE_IOC
 	 *	31-30 bits are for read/write
 	 *	29-16 size
-	 *	7-0 function 
+	 *	7-0 function
 	 **/
 	if((tmp % sizeof(struct spi_ioc_transfer))!=0) //check that our transfer(argument from cmd) is  is integral multiple of spi_ioc_transfer
 		return ERR_PTR(-EINVAL); // as u_ioc is passed as pointer and someone needs to know number of transfers.
@@ -238,13 +244,13 @@ static int LPC_probe(struct spi_device *spi)
 {
 
 	struct spidev_data *spidat;
-	
+
 	spidat=kzalloc(sizeof(*spidat),GFP_KERNEL);
 	if(!spidat)
 		return -ENOMEM;
 	spidat->spi=spi;
 	spin_lock_init(&spidat->spi_lock);
-	mutex_init(&spidat->buf_lock);	
+	mutex_init(&spidat->buf_lock);
 	INIT_LIST_HEAD(&spidat->device_entry);
 	int status;
 	unsigned long minor;
@@ -269,7 +275,7 @@ static int LPC_probe(struct spi_device *spi)
 		spi_set_drvdata(spi,spidat);
 	else
 		kfree(spidat);
-	
+
 
 	printk(KERN_EMERG "CS: %d\n",spi->chip_select);
 	printk(KERN_EMERG "LPC Module probed\n");
@@ -281,13 +287,13 @@ static const struct of_device_id lpc1769_of_ids[]={
 	{.compatible="linux,lpc1769_spi"},
 	{},
 };
-MODULE_DEVICE_TABLE(of,lpc1769_of_ids); 		
+MODULE_DEVICE_TABLE(of,lpc1769_of_ids);
 
 
 //--------------------------------------------------------------------------------//
 static struct spi_driver lpc1769_spi_driver = {
 
-	.driver = { 
+	.driver = {
 		.name="lpc1769_spi",
 		.of_match_table = of_match_ptr(lpc1769_of_ids),
 	},
@@ -305,7 +311,7 @@ static int __init Init_LPC(void)
 			return PTR_ERR(spidev_class);
 		}
 		status=spi_register_driver(&lpc1769_spi_driver);
-		
+
 		if(status<0)
 		{
 			class_destroy(spidev_class);
