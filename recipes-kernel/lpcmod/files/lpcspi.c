@@ -11,7 +11,7 @@
 #include <linux/spi/spi.h>
 #include <linux/spi/spidev.h>
 #include <linux/uaccess.h>
-#include <sys/socket.h>
+#include <linux/socket.h>
 #include <linux/netlink.h>
 #include <linux/sched.h>
 #include <linux/wait.h>
@@ -30,11 +30,11 @@
 
 
 int sleep_condition;
-struct work_data {
-	struct work_struct msg_work;
-	int print_data;
-}
+
+
 static DECLARE_BITMAP(minors,N_SPI_MINORS);
+
+
 struct spidev_data {
 	dev_t			devt;
 	spinlock_t		spi_lock;
@@ -46,7 +46,7 @@ struct spidev_data {
 
 	u8			*rx_buffer;
 	u32			speed_hz;
-};list_head
+};
 
 static ssize_t spidev_sync(struct spidev_data*, struct spi_message*);
 
@@ -252,9 +252,13 @@ static ssize_t spidev_sync(struct spidev_data *spidat, struct spi_message *messa
 		return spidev_sync(spidat, &m);
 }
 //-------------------------------------------------------------------------------//:wq
-static void msg_thread_handler(struct msg_work)
+struct work_data {
+			struct work_struct msg_work;
+			int print_data;
+		};
+static void msg_thread_handler(struct work_struct *my_work)
 {
- struct work_data *any_data = container_of(msg_work, struct work_data,work_struct);
+ struct work_data *any_data = container_of(my_work, struct work_data,msg_work);
  msleep(2000);
  printk("work handled :%d\n",any_data->print_data);
  kfree(any_data);
