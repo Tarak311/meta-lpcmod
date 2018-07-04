@@ -311,7 +311,7 @@ static int LPC_probe(struct spi_device *spi)
 
 }
 static const struct of_device_id lpc1769_of_ids[]={
-	{.compatible="linux,lpc1769_spi"},
+	{.compatible="linux,lpcspi"},
 	{},
 };
 MODULE_DEVICE_TABLE(of,lpc1769_of_ids);
