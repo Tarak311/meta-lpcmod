@@ -823,4 +823,4 @@ module_exit(spidev_exit);
 MODULE_AUTHOR("Tarak Patel, <pateltarak3@gmail.com>");
 MODULE_DESCRIPTION("User mode SPI device interface");
 MODULE_LICENSE("GPL");
-MODULE_ALIAS("spi:spidev");
+MODULE_ALIAS("spi:lpcspi");
