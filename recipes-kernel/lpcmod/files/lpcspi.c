@@ -276,6 +276,14 @@ struct work_data {
 			struct spidev_data* spidata;
 			struct spi_ioc_transfer *tr;
 		};
+		struct spi_ioc_transfer ioc_tr={
+			.rx_buf=rx1,
+			.tx_buf=tx1,
+			.len= ARRAY_SIZE(tx1),
+			.delay_usecs = 0,
+			.speed_hz = spi->max_speed_hz,
+			.bits_per_word =spi->bits_per_word
+		};
 static void msg_thread_handler(struct work_struct *my_work)
 {
  int retval;
@@ -311,14 +319,7 @@ static int LPC_probe(struct spi_device *spi)
 	struct work_data* my_msg_work;
 	my_msg_work = kmalloc(sizeof(struct work_data), GFP_KERNEL);
 	my_msg_work->print_data = 1;
-	struct spi_ioc_transfer ioc_tr={
-		.rx_buf=rx1,
-		.tx_buf=tx1,
-		.len= ARRAY_SIZE(tx1),
-		.delay_usecs = 0,
-		.speed_hz = spi->max_speed_hz,
-		.bits_per_word =spi->bits_per_word
-	};
+
 	my_msg_work->tr=&ioc_tr;
 	my_msg_work->spidata=spidat;
 	INIT_WORK(&my_msg_work->msg_work,msg_thread_handler);
