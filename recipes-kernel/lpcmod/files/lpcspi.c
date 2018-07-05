@@ -18,6 +18,7 @@
 #include <linux/time.h>
 #include <linux/delay.h>
 #include <linux/workqueue.h>
+#include <linux/ioctl.h>
 
 //------------------------------------------------------------------------------------------------------------------------------//
 
@@ -89,7 +90,10 @@ static struct spi_ioc_transfer * spidev_get_ioc_message(unsigned int cmd,struct 
 	}
 	return ioc;
 }
-static int spidev_message(struct spidev_data *spidev, struct spi_ioc_transfer *u_xfers, unsigned n_xfers)
+
+
+
+static int spidev_message(struct spidev_data *spidev,struct spi_ioc_transfer *u_xfers, unsigned n_xfers)
 {
 	struct spi_message	msg;
 	struct spi_transfer	*k_xfers;
@@ -113,7 +117,9 @@ static int spidev_message(struct spidev_data *spidev, struct spi_ioc_transfer *u
 	total = 0;
 	tx_total = 0;
 	rx_total = 0;
-	for (n = n_xfers, k_tmp = k_xfers, u_tmp = u_xfers;n;n--, k_tmp++, u_tmp++) {
+	for (n = n_xfers, k_tmp = k_xfers, u_tmp = u_xfers;
+			n;
+			n--, k_tmp++, u_tmp++) {
 		k_tmp->len = u_tmp->len;
 
 		total += k_tmp->len;
@@ -135,7 +141,9 @@ static int spidev_message(struct spidev_data *spidev, struct spi_ioc_transfer *u
 				goto done;
 			}
 			k_tmp->rx_buf = rx_buf;
-			if (!access_ok( VERIFY_WRITE, (u8 __user *) (uintptr_t) u_tmp->rx_buf, u_tmp->len))
+			if (!access_ok(VERIFY_WRITE, (u8 __user *)
+						(uintptr_t) u_tmp->rx_buf,
+						u_tmp->len))
 				goto done;
 			rx_buf += k_tmp->len;
 		}
@@ -147,7 +155,9 @@ static int spidev_message(struct spidev_data *spidev, struct spi_ioc_transfer *u
 				goto done;
 			}
 			k_tmp->tx_buf = tx_buf;
-			if (copy_from_user(tx_buf, (const u8 __user *)(uintptr_t) u_tmp->tx_buf,u_tmp->len))
+			if (copy_from_user(tx_buf, (const u8 __user *)
+						(uintptr_t) u_tmp->tx_buf,
+					u_tmp->len))
 				goto done;
 			tx_buf += k_tmp->len;
 		}
@@ -182,7 +192,9 @@ static int spidev_message(struct spidev_data *spidev, struct spi_ioc_transfer *u
 	rx_buf = spidev->rx_buffer;
 	for (n = n_xfers, u_tmp = u_xfers; n; n--, u_tmp++) {
 		if (u_tmp->rx_buf) {
-			if (__copy_to_user((u8 __user *)(uintptr_t) u_tmp->rx_buf, rx_buf,u_tmp->len)) {
+			if (__copy_to_user((u8 __user *)
+					(uintptr_t) u_tmp->rx_buf, rx_buf,
+					u_tmp->len)) {
 				status = -EFAULT;
 				goto done;
 			}
@@ -195,7 +207,6 @@ done:
 	kfree(k_xfers);
 	return status;
 }
-
 
 
 
@@ -252,15 +263,43 @@ static ssize_t spidev_sync(struct spidev_data *spidat, struct spi_message *messa
 		return spidev_sync(spidat, &m);
 }
 //-------------------------------------------------------------------------------//:wq
+static uint8_t tx1[]={0x81, 0x73, 0x44, 0x55};
+static uint8_t rx1[]={0x00, 0x00, 0x00, 0x00};
 struct work_data {
 			struct work_struct msg_work;
 			int print_data;
+			__u64 *tx;
+			__u64 *rx;
+			__u32 size;
+			struct spidev_data* spidata;
+			struct spi_ioc_transfer *tr;
 		};
 static void msg_thread_handler(struct work_struct *my_work)
 {
+ int retval;
  struct work_data *any_data = container_of(my_work, struct work_data,msg_work);
+
+
  msleep(2000);
+ //any_data->tx=tx1;
+ //any_data->rx=rx1;
+ struct spi_ioc_transfer *ioc1;
+ u32 tmp;
+ unsigned n_ioc=1;
+
+
+ ioc1 = spidev_get_ioc_message(SPI_IOC_MESSAGE(1), (struct spi_ioc_transfer __user *)any_data->tr, &n_ioc);
+ if (IS_ERR(ioc1)) {
+	 printk("something wrong");
+ }
+ if (!ioc1){
+	 printk("can't allocate ioc");
+ }
+
+ retval = spidev_message(any_data->spidata,any_data->tr,n_ioc);
+ //printk("Value of RX is:%08x\n",rx1[0]);
  printk("work handled :%d\n",any_data->print_data);
+
  kfree(any_data);
  }
 static int LPC_probe(struct spi_device *spi)
@@ -270,12 +309,23 @@ static int LPC_probe(struct spi_device *spi)
 	struct work_data* my_msg_work;
 	my_msg_work = kmalloc(sizeof(struct work_data), GFP_KERNEL);
 	my_msg_work->print_data = 1;
+	struct spi_ioc_transfer ioc_tr={
+		.rx_buf=rx1,
+		.tx_buf=tx1,
+		.len= ARRAY_SIZE(tx1),
+		.delay_usecs = 0,
+		.speed_hz = spi->max_speed_hz,
+		.bits_per_word =spi->bits_per_word
+	};
+	my_msg_work->tr=&ioc_tr;
+	my_msg_work->spidata=spidat;
 	INIT_WORK(&my_msg_work->msg_work,msg_thread_handler);
 	schedule_work(&my_msg_work->msg_work);
 	spidat=kzalloc(sizeof(*spidat),GFP_KERNEL);
 	if(!spidat)
 		return -ENOMEM;
 	spidat->spi=spi;
+
 	spin_lock_init(&spidat->spi_lock);
 	mutex_init(&spidat->buf_lock);
 	INIT_LIST_HEAD(&spidat->device_entry);
@@ -307,6 +357,7 @@ static int LPC_probe(struct spi_device *spi)
 	printk(KERN_EMERG "CS: %d\n",spi->chip_select);
 	printk(KERN_EMERG "LPC Module probed\n");
 	printk("spi->mode: %04x\n",spi->mode);
+
 	return status;
 
 }
