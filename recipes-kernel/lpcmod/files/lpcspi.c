@@ -277,8 +277,13 @@ static void msg_thread_handler(struct work_struct *my_work)
  retval = spidev_message(any_data->spidata,any_data->tr,n_ioc);
  msleep(2000);
   printk("1.1");
+<<<<<<< HEAD
  printk("Value of TX is:%08x\n", any_data->tr->tx_buf);
  printk("Value of RX is:%08x\n", any_data->tr->rx_buf);
+=======
+ printk("Value of TX is:%08x\n", any_data->tr.tx_buf);
+ printk("Value of RX is:%08x\n", any_data->tr.rx_buf);
+>>>>>>> 7514f67882f67362cec687d1d04ceaf0f35e436a
  printk("work handled :%d\n",any_data->print_data);
  kfree(any_data);
  }
