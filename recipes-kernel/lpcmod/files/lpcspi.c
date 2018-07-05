@@ -58,7 +58,18 @@ static struct class *spidev_class;
 module_param(bufsiz, uint, S_IRUGO);
 MODULE_PARM_DESC(bufsiz,"lpc-parmeter");
 
-
+static uint8_t tx1[]={0x81, 0x73, 0x44, 0x55};
+static uint8_t rx1[]={0x00, 0x00, 0x00, 0x00};
+struct work_data {
+			struct work_struct msg_work;
+			int print_data;
+			__u64 *tx;
+			__u64 *rx;
+			__u32 size;
+			struct spidev_data* spidata;
+			struct spi_device* spidev;
+			struct spi_ioc_transfer *tr;
+		};
 
 
 //-----------------------------------------------------------------------------------------------------------------------------//
@@ -69,7 +80,9 @@ static struct spi_ioc_transfer * spidev_get_ioc_message(unsigned int cmd,struct 
 	// next line check if it is write and SPI_IOC_MESSAGE type
 	if(_IOC_TYPE(cmd)!=SPI_IOC_MAGIC||_IOC_NR(cmd)!=_IOC_NR(SPI_IOC_MESSAGE(0))||_IOC_DIR(cmd)!= _IOC_WRITE)
 		return ERR_PTR(-ENOTTY);
-	tmp =_IOC_SIZE(cmd); //it copies size from command
+	tmp =_IOC_SIZE(cmd);//it copies size from command
+
+printk("In ioc func %d\n ",tmp);
 	/*
 	 *	IOCTL_WR_EXAMPLE_IOC
 	 *	31-30 bits are for read/write
@@ -240,43 +253,9 @@ static ssize_t spidev_sync(struct spidev_data *spidat, struct spi_message *messa
 
 
 
- static inline ssize_t spidev_sync_write(struct spidev_data *spidat, size_t len)
-{
-		struct spi_transfer t = {
-					.tx_buf 	= spidat->tx_buffer,
-					.len		= len,
-					.speed_hz	= spidat->speed_hz,
-	};
-	struct spi_message m;
-	spi_message_init(&m);
-	spi_message_add_tail(&t,&m);
-	return spidev_sync(spidat,&m);
-}
- static inline ssize_t spidev_sync_read(struct spidev_data *spidat, size_t len)
-{
-		struct spi_transfer t = {
-					 .rx_buf	= spidat->rx_buffer,
-					 .len		= len,
-					 .speed_hz	= spidat->speed_hz,
-		};
-		struct spi_message	 m;
-		spi_message_init(&m);
-		spi_message_add_tail(&t, &m);
-		return spidev_sync(spidat, &m);
-}
+
 //-------------------------------------------------------------------------------//:wq
-static uint8_t tx1[]={0x81, 0x73, 0x44, 0x55};
-static uint8_t rx1[]={0x00, 0x00, 0x00, 0x00};
-struct work_data {
-			struct work_struct msg_work;
-			int print_data;
-			__u64 *tx;
-			__u64 *rx;
-			__u32 size;
-			struct spidev_data* spidata;
-			struct spi_device* spidev;
-			struct spi_ioc_transfer *tr;
-		};
+
 static void msg_thread_handler(struct work_struct *my_work)
 {
  int retval;
@@ -287,7 +266,7 @@ static void msg_thread_handler(struct work_struct *my_work)
  printk("work started :%d\n",any_data->print_data);
  struct spi_ioc_transfer *ioc1;
  u32 tmp;
- unsigned n_ioc=1;
+ unsigned n_ioc;
  ioc1 = spidev_get_ioc_message(SPI_IOC_MESSAGE(1), (struct spi_ioc_transfer __user *)any_data->tr, &n_ioc);
  if (IS_ERR(ioc1)) {
 	 printk("something wrong");
@@ -295,8 +274,9 @@ static void msg_thread_handler(struct work_struct *my_work)
  if (!ioc1){
 	 printk("can't allocate ioc");
  }
- retval = spidev_message(any_data->spidata,ioc1,n_ioc);
+ retval = spidev_message(any_data->spidata,any_data->tr,n_ioc);
  msleep(2000);
+  printk("1.1");
  printk("Value of TX is:%08x\n", any_data->tr->tx_buf);
  printk("Value of RX is:%08x\n", any_data->tr->rx_buf);
  printk("work handled :%d\n",any_data->print_data);
@@ -313,8 +293,8 @@ static int LPC_probe(struct spi_device *spi)
 		return -ENOMEM;
 	spidat->spi=spi;
 	struct spi_ioc_transfer ioc_tr={
-  	.rx_buf=rx1,
-  	.tx_buf=tx1,
+  	.rx_buf=&rx1,
+  	.tx_buf=&tx1,
   	.len= ARRAY_SIZE(tx1),
   	.delay_usecs = 0,
   	.speed_hz = spi->max_speed_hz,
