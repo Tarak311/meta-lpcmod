@@ -73,42 +73,117 @@ struct work_data {
 
 
 //-----------------------------------------------------------------------------------------------------------------------------//
-static struct spi_ioc_transfer * spidev_get_ioc_message(unsigned int cmd,struct spi_ioc_transfer __user *u_ioc, unsigned *n_ioc)
+static ssize_t
+spidev_sync(struct spidev_data *spidev, struct spi_message *message)
 {
-	struct spi_ioc_transfer *ioc;
-	u32 tmp; // note that it is of 32 bit value
-	// next line check if it is write and SPI_IOC_MESSAGE type
-	if(_IOC_TYPE(cmd)!=SPI_IOC_MAGIC||_IOC_NR(cmd)!=_IOC_NR(SPI_IOC_MESSAGE(0))||_IOC_DIR(cmd)!= _IOC_WRITE)
-		return ERR_PTR(-ENOTTY);
-	tmp =_IOC_SIZE(cmd);//it copies size from command
+	DECLARE_COMPLETION_ONSTACK(done);
+	int status;
+	struct spi_device *spi;
 
-printk("In ioc func %d\n ",tmp);
-	/*
-	 *	IOCTL_WR_EXAMPLE_IOC
-	 *	31-30 bits are for read/write
-	 *	29-16 size
-	 *	7-0 function
-	 **/
-	if((tmp % sizeof(struct spi_ioc_transfer))!=0) //check that our transfer(argument from cmd) is  is integral multiple of spi_ioc_transfer
-		return ERR_PTR(-EINVAL); // as u_ioc is passed as pointer and someone needs to know number of transfers.
-	*n_ioc=tmp/sizeof(struct spi_ioc_transfer);
-	if(*n_ioc==0)
-		return NULL;
-	ioc=kmalloc(tmp,GFP_KERNEL);
-	if(!ioc)
-		return ERR_PTR(-ENOMEM);
-	if(__copy_from_user(ioc,u_ioc,tmp)){
-		kfree(ioc);
-		return ERR_PTR(-EFAULT);
-	}
-	return ioc;
+	spin_lock_irq(&spidev->spi_lock);
+	spi = spidev->spi;
+	spin_unlock_irq(&spidev->spi_lock);
+
+	if (spi == NULL)
+		status = -ESHUTDOWN;
+	else
+		status = spi_sync(spi, message);
+
+	if (status == 0)
+		status = message->actual_length;
+
+	return status;
 }
 
+static inline ssize_t
+spidev_sync_write(struct spidev_data *spidev, size_t len)
+{
+	struct spi_transfer	t = {
+			.tx_buf		= spidev->tx_buffer,
+			.len		= len,
+			.speed_hz	= spidev->speed_hz,
+		};
+	struct spi_message	m;
 
+	spi_message_init(&m);
+	spi_message_add_tail(&t, &m);
+	return spidev_sync(spidev, &m);
+}
 
+static inline ssize_t
+spidev_sync_read(struct spidev_data *spidev, size_t len)
+{
+	struct spi_transfer	t = {
+			.rx_buf		= spidev->rx_buffer,
+			.len		= len,
+			.speed_hz	= spidev->speed_hz,
+		};
+	struct spi_message	m;
 
+	spi_message_init(&m);
+	spi_message_add_tail(&t, &m);
+	return spidev_sync(spidev, &m);
+}
 
-static int spidev_message(struct spidev_data *spidev,struct spi_ioc_transfer *u_xfers, unsigned n_xfers)
+/*-------------------------------------------------------------------------*/
+
+/* Read-only message with current device setup */
+static ssize_t
+spidev_read(struct file *filp, char __user *buf, size_t count, loff_t *f_pos)
+{
+	struct spidev_data	*spidev;
+	ssize_t			status = 0;
+
+	/* chipselect only toggles at start or end of operation */
+	if (count > bufsiz)
+		return -EMSGSIZE;
+
+	spidev = filp->private_data;
+
+	mutex_lock(&spidev->buf_lock);
+	status = spidev_sync_read(spidev, count);
+	if (status > 0) {
+		unsigned long	missing;
+
+		missing = copy_to_user(buf, spidev->rx_buffer, status);
+		if (missing == status)
+			status = -EFAULT;
+		else
+			status = status - missing;
+	}
+	mutex_unlock(&spidev->buf_lock);
+
+	return status;
+}
+
+/* Write-only message with current device setup */
+static ssize_t
+spidev_write(struct file *filp, const char __user *buf,
+		size_t count, loff_t *f_pos)
+{
+	struct spidev_data	*spidev;
+	ssize_t			status = 0;
+	unsigned long		missing;
+
+	/* chipselect only toggles at start or end of operation */
+	if (count > bufsiz)
+		return -EMSGSIZE;
+
+	spidev = filp->private_data;
+
+	mutex_lock(&spidev->buf_lock);
+	missing = copy_from_user(spidev->tx_buffer, buf, count);
+	if (missing == 0)
+		status = spidev_sync_write(spidev, count);
+	else
+		status = -EFAULT;
+	mutex_unlock(&spidev->buf_lock);
+
+	return status;
+}
+
+static int spidev_message(struct spidev_data *spidev,
+		struct spi_ioc_transfer *u_xfers, unsigned n_xfers)
 {
 	struct spi_message	msg;
 	struct spi_transfer	*k_xfers;
@@ -117,7 +192,7 @@ static int spidev_message(struct spidev_data *spidev,struct spi_ioc_transfer *u_
 	unsigned		n, total, tx_total, rx_total;
 	u8			*tx_buf, *rx_buf;
 	int			status = -EFAULT;
-printk("In spi msg init \n ");
+
 	spi_message_init(&msg);
 	k_xfers = kcalloc(n_xfers, sizeof(*k_tmp), GFP_KERNEL);
 	if (k_xfers == NULL)
@@ -198,7 +273,7 @@ printk("In spi msg init \n ");
 #endif
 		spi_message_add_tail(k_tmp, &msg);
 	}
- printk("In spi msg fun \n ");
+
 	status = spidev_sync(spidev, &msg);
 	if (status < 0)
 		goto done;
@@ -223,35 +298,376 @@ done:
 	return status;
 }
 
+static struct spi_ioc_transfer *
+spidev_get_ioc_message(unsigned int cmd, struct spi_ioc_transfer __user *u_ioc,
+		unsigned *n_ioc)
+{
+	struct spi_ioc_transfer	*ioc;
+	u32	tmp;
 
+	/* Check type, command number and direction */
+	if (_IOC_TYPE(cmd) != SPI_IOC_MAGIC
+			|| _IOC_NR(cmd) != _IOC_NR(SPI_IOC_MESSAGE(0))
+			|| _IOC_DIR(cmd) != _IOC_WRITE)
+		return ERR_PTR(-ENOTTY);
 
+	tmp = _IOC_SIZE(cmd);
+	if ((tmp % sizeof(struct spi_ioc_transfer)) != 0)
+		return ERR_PTR(-EINVAL);
+	*n_ioc = tmp / sizeof(struct spi_ioc_transfer);
+	if (*n_ioc == 0)
+		return NULL;
 
+	/* copy into scratch area */
+	ioc = kmalloc(tmp, GFP_KERNEL);
+	if (!ioc)
+		return ERR_PTR(-ENOMEM);
+	if (__copy_from_user(ioc, u_ioc, tmp)) {
+		kfree(ioc);
+		return ERR_PTR(-EFAULT);
+	}
+	return ioc;
+}
 
+static long
+spidev_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+{
+	int			err = 0;
+	int			retval = 0;
+	struct spidev_data	*spidev;
+	struct spi_device	*spi;
+	u32			tmp;
+	unsigned		n_ioc;
+	struct spi_ioc_transfer	*ioc;
 
+	/* Check type and command number */
+	if (_IOC_TYPE(cmd) != SPI_IOC_MAGIC)
+		return -ENOTTY;
 
+	/* Check access direction once here; don't repeat below.
+	 * IOC_DIR is from the user perspective, while access_ok is
+	 * from the kernel perspective; so they look reversed.
+	 */
+	if (_IOC_DIR(cmd) & _IOC_READ)
+		err = !access_ok(VERIFY_WRITE,
+				(void __user *)arg, _IOC_SIZE(cmd));
+	if (err == 0 && _IOC_DIR(cmd) & _IOC_WRITE)
+		err = !access_ok(VERIFY_READ,
+				(void __user *)arg, _IOC_SIZE(cmd));
+	if (err)
+		return -EFAULT;
 
-
-//-----------------------------------------------------------------------------------------------------------------------------//
-//-----------------------------------------------------------------------------------------------------------------------------//
-static ssize_t spidev_sync(struct spidev_data *spidat, struct spi_message *message)
-{	DECLARE_COMPLETION_ONSTACK(done);
-	int status;
-	struct spi_device *spi;
-	spin_lock_irq(&spidat->spi_lock);
-	spi = spidat->spi;
-	spin_unlock_irq(&spidat->spi_lock);
+	/* guard against device removal before, or while,
+	 * we issue this ioctl.
+	 */
+	spidev = filp->private_data;
+	spin_lock_irq(&spidev->spi_lock);
+	spi = spi_dev_get(spidev->spi);
+	spin_unlock_irq(&spidev->spi_lock);
 
 	if (spi == NULL)
-		status = -ESHUTDOWN;
-	else
-		status = spi_sync(spi,message);
-	if (status==0)
-		status = message->actual_length;
+		return -ESHUTDOWN;
+
+	/* use the buffer lock here for triple duty:
+	 *  - prevent I/O (from us) so calling spi_setup() is safe;
+	 *  - prevent concurrent SPI_IOC_WR_* from morphing
+	 *    data fields while SPI_IOC_RD_* reads them;
+	 *  - SPI_IOC_MESSAGE needs the buffer locked "normally".
+	 */
+	mutex_lock(&spidev->buf_lock);
+
+	switch (cmd) {
+	/* read requests */
+	case SPI_IOC_RD_MODE:
+		retval = __put_user(spi->mode & SPI_MODE_MASK,
+					(__u8 __user *)arg);
+		break;
+	case SPI_IOC_RD_MODE32:
+		retval = __put_user(spi->mode & SPI_MODE_MASK,
+					(__u32 __user *)arg);
+		break;
+	case SPI_IOC_RD_LSB_FIRST:
+		retval = __put_user((spi->mode & SPI_LSB_FIRST) ?  1 : 0,
+					(__u8 __user *)arg);
+		break;
+	case SPI_IOC_RD_BITS_PER_WORD:
+		retval = __put_user(spi->bits_per_word, (__u8 __user *)arg);
+		break;
+	case SPI_IOC_RD_MAX_SPEED_HZ:
+		retval = __put_user(spidev->speed_hz, (__u32 __user *)arg);
+		break;
+
+	/* write requests */
+	case SPI_IOC_WR_MODE:
+	case SPI_IOC_WR_MODE32:
+		if (cmd == SPI_IOC_WR_MODE)
+			retval = __get_user(tmp, (u8 __user *)arg);
+		else
+			retval = __get_user(tmp, (u32 __user *)arg);
+		if (retval == 0) {
+			u32	save = spi->mode;
+
+			if (tmp & ~SPI_MODE_MASK) {
+				retval = -EINVAL;
+				break;
+			}
+
+			tmp |= spi->mode & ~SPI_MODE_MASK;
+			spi->mode = (u16)tmp;
+			retval = spi_setup(spi);
+			if (retval < 0)
+				spi->mode = save;
+			else
+				dev_dbg(&spi->dev, "spi mode %x\n", tmp);
+		}
+		break;
+	case SPI_IOC_WR_LSB_FIRST:
+		retval = __get_user(tmp, (__u8 __user *)arg);
+		if (retval == 0) {
+			u32	save = spi->mode;
+
+			if (tmp)
+				spi->mode |= SPI_LSB_FIRST;
+			else
+				spi->mode &= ~SPI_LSB_FIRST;
+			retval = spi_setup(spi);
+			if (retval < 0)
+				spi->mode = save;
+			else
+				dev_dbg(&spi->dev, "%csb first\n",
+						tmp ? 'l' : 'm');
+		}
+		break;
+	case SPI_IOC_WR_BITS_PER_WORD:
+		retval = __get_user(tmp, (__u8 __user *)arg);
+		if (retval == 0) {
+			u8	save = spi->bits_per_word;
+
+			spi->bits_per_word = tmp;
+			retval = spi_setup(spi);
+			if (retval < 0)
+				spi->bits_per_word = save;
+			else
+				dev_dbg(&spi->dev, "%d bits per word\n", tmp);
+		}
+		break;
+	case SPI_IOC_WR_MAX_SPEED_HZ:
+		retval = __get_user(tmp, (__u32 __user *)arg);
+		if (retval == 0) {
+			u32	save = spi->max_speed_hz;
+
+			spi->max_speed_hz = tmp;
+			retval = spi_setup(spi);
+			if (retval >= 0)
+				spidev->speed_hz = tmp;
+			else
+				dev_dbg(&spi->dev, "%d Hz (max)\n", tmp);
+			spi->max_speed_hz = save;
+		}
+		break;
+
+	default:
+		/* segmented and/or full-duplex I/O request */
+		/* Check message and copy into scratch area */
+		ioc = spidev_get_ioc_message(cmd,
+				(struct spi_ioc_transfer __user *)arg, &n_ioc);
+		if (IS_ERR(ioc)) {
+			retval = PTR_ERR(ioc);
+			break;
+		}
+		if (!ioc)
+			break;	/* n_ioc is also 0 */
+
+		/* translate to spi_message, execute */
+		retval = spidev_message(spidev, ioc, n_ioc);
+		kfree(ioc);
+		break;
+	}
+
+	mutex_unlock(&spidev->buf_lock);
+	spi_dev_put(spi);
+	return retval;
+}
+
+#ifdef CONFIG_COMPAT
+static long
+spidev_compat_ioc_message(struct file *filp, unsigned int cmd,
+		unsigned long arg)
+{
+	struct spi_ioc_transfer __user	*u_ioc;
+	int				retval = 0;
+	struct spidev_data		*spidev;
+	struct spi_device		*spi;
+	unsigned			n_ioc, n;
+	struct spi_ioc_transfer		*ioc;
+
+	u_ioc = (struct spi_ioc_transfer __user *) compat_ptr(arg);
+	if (!access_ok(VERIFY_READ, u_ioc, _IOC_SIZE(cmd)))
+		return -EFAULT;
+
+	/* guard against device removal before, or while,
+	 * we issue this ioctl.
+	 */
+	spidev = filp->private_data;
+	spin_lock_irq(&spidev->spi_lock);
+	spi = spi_dev_get(spidev->spi);
+	spin_unlock_irq(&spidev->spi_lock);
+
+	if (spi == NULL)
+		return -ESHUTDOWN;
+
+	/* SPI_IOC_MESSAGE needs the buffer locked "normally" */
+	mutex_lock(&spidev->buf_lock);
+
+	/* Check message and copy into scratch area */
+	ioc = spidev_get_ioc_message(cmd, u_ioc, &n_ioc);
+	if (IS_ERR(ioc)) {
+		retval = PTR_ERR(ioc);
+		goto done;
+	}
+	if (!ioc)
+		goto done;	/* n_ioc is also 0 */
+
+	/* Convert buffer pointers */
+	for (n = 0; n < n_ioc; n++) {
+		ioc[n].rx_buf = (uintptr_t) compat_ptr(ioc[n].rx_buf);
+		ioc[n].tx_buf = (uintptr_t) compat_ptr(ioc[n].tx_buf);
+	}
+
+	/* translate to spi_message, execute */
+	retval = spidev_message(spidev, ioc, n_ioc);
+	kfree(ioc);
+
+done:
+	mutex_unlock(&spidev->buf_lock);
+	spi_dev_put(spi);
+	return retval;
+}
+
+static long
+spidev_compat_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+{
+	if (_IOC_TYPE(cmd) == SPI_IOC_MAGIC
+			&& _IOC_NR(cmd) == _IOC_NR(SPI_IOC_MESSAGE(0))
+			&& _IOC_DIR(cmd) == _IOC_WRITE)
+		return spidev_compat_ioc_message(filp, cmd, arg);
+
+	return spidev_ioctl(filp, cmd, (unsigned long)compat_ptr(arg));
+}
+#else
+#define spidev_compat_ioctl NULL
+#endif /* CONFIG_COMPAT */
+
+static int spidev_open(struct inode *inode, struct file *filp)
+{
+	struct spidev_data	*spidev;
+	int			status = -ENXIO;
+
+	mutex_lock(&device_list_lock);
+
+	list_for_each_entry(spidev, &device_list, device_entry) {
+		if (spidev->devt == inode->i_rdev) {
+			status = 0;
+			break;
+		}
+	}
+
+	if (status) {
+		pr_debug("spidev: nothing for minor %d\n", iminor(inode));
+		goto err_find_dev;
+	}
+
+	if (!spidev->tx_buffer) {
+		spidev->tx_buffer = kmalloc(bufsiz, GFP_KERNEL);
+		if (!spidev->tx_buffer) {
+			dev_dbg(&spidev->spi->dev, "open/ENOMEM\n");
+			status = -ENOMEM;
+			goto err_find_dev;
+		}
+	}
+
+	if (!spidev->rx_buffer) {
+		spidev->rx_buffer = kmalloc(bufsiz, GFP_KERNEL);
+		if (!spidev->rx_buffer) {
+			dev_dbg(&spidev->spi->dev, "open/ENOMEM\n");
+			status = -ENOMEM;
+			goto err_alloc_rx_buf;
+		}
+	}
+
+	spidev->users++;
+	filp->private_data = spidev;
+	nonseekable_open(inode, filp);
+
+	mutex_unlock(&device_list_lock);
+	return 0;
+
+err_alloc_rx_buf:
+	kfree(spidev->tx_buffer);
+	spidev->tx_buffer = NULL;
+err_find_dev:
+	mutex_unlock(&device_list_lock);
 	return status;
 }
 
+static int spidev_release(struct inode *inode, struct file *filp)
+{
+	struct spidev_data	*spidev;
 
+	mutex_lock(&device_list_lock);
+	spidev = filp->private_data;
+	filp->private_data = NULL;
 
+	/* last close? */
+	spidev->users--;
+	if (!spidev->users) {
+		int		dofree;
+
+		kfree(spidev->tx_buffer);
+		spidev->tx_buffer = NULL;
+
+		kfree(spidev->rx_buffer);
+		spidev->rx_buffer = NULL;
+
+		spin_lock_irq(&spidev->spi_lock);
+		if (spidev->spi)
+			spidev->speed_hz = spidev->spi->max_speed_hz;
+
+		/* ... after we unbound from the underlying device? */
+		dofree = (spidev->spi == NULL);
+		spin_unlock_irq(&spidev->spi_lock);
+
+		if (dofree)
+			kfree(spidev);
+	}
+	mutex_unlock(&device_list_lock);
+
+	return 0;
+}
+
+static const struct file_operations spidev_fops = {
+	.owner =	THIS_MODULE,
+	/* REVISIT switch to aio primitives, so that userspace
+	 * gets more complete API coverage.  It'll simplify things
+	 * too, except for the locking.
+	 */
+	.write =	spidev_write,
+	.read =		spidev_read,
+	.unlocked_ioctl = spidev_ioctl,
+	.compat_ioctl = spidev_compat_ioctl,
+	.open =		spidev_open,
+	.release =	spidev_release,
+	.llseek =	no_llseek,
+};
+
+/*-------------------------------------------------------------------------*/
+
+/* The main reason to have this class is to make mdev/udev create the
+ * /dev/spidevB.C character device nodes exposing our userspace API.
+ * It also simplifies memory management.
+ */
+
+static struct class *spidev_class;
 
 
 //-------------------------------------------------------------------------------//:wq
@@ -267,16 +683,16 @@ static void msg_thread_handler(struct work_struct *my_work)
  struct spi_ioc_transfer *ioc1;
  u32 tmp;
  unsigned n_ioc;
- ioc1 = spidev_get_ioc_message(SPI_IOC_MESSAGE(1), (struct spi_ioc_transfer __user *)any_data->tr, &n_ioc);
- if (IS_ERR(ioc1)) {
+ //ioc1 = spidev_get_ioc_message(SPI_IOC_MESSAGE(1), (struct spi_ioc_transfer __user *)any_data->tr, &n_ioc);
+ /*if (IS_ERR(ioc1)) {
 	 printk("something wrong");
  }
  if (!ioc1){
 	 printk("can't allocate ioc");
- }
- retval = spidev_message(any_data->spidata,any_data->tr,n_ioc);
- msleep(2000);
-  printk("1.1");
+ }*/
+ //retval = spidev_message(any_data->spidata,any_data->tr,n_ioc);
+// msleep(2000);
+  printk("1.2");
  printk("Value of TX is:%08x\n", any_data->tr->tx_buf);
  printk("Value of RX is:%08x\n", any_data->tr->rx_buf);
  printk("work handled :%d\n",any_data->print_data);
@@ -362,6 +778,11 @@ static struct spi_driver lpc1769_spi_driver = {
 static int __init Init_LPC(void)
 	{
 		int status;
+	BUILD_BUG_ON(N_SPI_MINORS > 256);
+	status = register_chrdev(SPIDEV_MAJOR, "lpc", &spidev_fops);
+	if (status < 0)
+		return status;
+
 		printk(KERN_EMERG "LPC moudle initialized \n");
 		spidev_class=class_create(THIS_MODULE,"soc_spi_dev");
 		if (IS_ERR(spidev_class)){

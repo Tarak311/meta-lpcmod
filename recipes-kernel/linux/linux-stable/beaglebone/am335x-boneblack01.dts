@@ -39,6 +39,8 @@
                         };
                 };
 &spi0 {
+        #address-cells = <1>;
+        #size-cells = <0>;
         status = "okay";
         pinctrl-name = "default";
         pinctrl-0 = <&spi0_pins_s0>;
@@ -48,4 +50,3 @@
                 compatible = "linux,lpcspi";
         };
 };
-
