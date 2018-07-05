@@ -104,7 +104,7 @@ static int spidev_message(struct spidev_data *spidev,struct spi_ioc_transfer *u_
 	unsigned		n, total, tx_total, rx_total;
 	u8			*tx_buf, *rx_buf;
 	int			status = -EFAULT;
-
+printk("In spi msg init \n ");
 	spi_message_init(&msg);
 	k_xfers = kcalloc(n_xfers, sizeof(*k_tmp), GFP_KERNEL);
 	if (k_xfers == NULL)
@@ -185,7 +185,7 @@ static int spidev_message(struct spidev_data *spidev,struct spi_ioc_transfer *u_
 #endif
 		spi_message_add_tail(k_tmp, &msg);
 	}
-
+ printk("In spi msg fun \n ");
 	status = spidev_sync(spidev, &msg);
 	if (status < 0)
 		goto done;
@@ -274,30 +274,20 @@ struct work_data {
 			__u64 *rx;
 			__u32 size;
 			struct spidev_data* spidata;
+			struct spi_device* spidev;
 			struct spi_ioc_transfer *tr;
-		};
-		struct spi_ioc_transfer ioc_tr={
-			.rx_buf=rx1,
-			.tx_buf=tx1,
-			.len= ARRAY_SIZE(tx1),
-			.delay_usecs = 0,
-			.speed_hz = spi->max_speed_hz,
-			.bits_per_word =spi->bits_per_word
 		};
 static void msg_thread_handler(struct work_struct *my_work)
 {
  int retval;
  struct work_data *any_data = container_of(my_work, struct work_data,msg_work);
-
-
  msleep(2000);
  //any_data->tx=tx1;
  //any_data->rx=rx1;
+ printk("work started :%d\n",any_data->print_data);
  struct spi_ioc_transfer *ioc1;
  u32 tmp;
  unsigned n_ioc=1;
-
-
  ioc1 = spidev_get_ioc_message(SPI_IOC_MESSAGE(1), (struct spi_ioc_transfer __user *)any_data->tr, &n_ioc);
  if (IS_ERR(ioc1)) {
 	 printk("something wrong");
@@ -305,11 +295,11 @@ static void msg_thread_handler(struct work_struct *my_work)
  if (!ioc1){
 	 printk("can't allocate ioc");
  }
-
- retval = spidev_message(any_data->spidata,any_data->tr,n_ioc);
- //printk("Value of RX is:%08x\n",rx1[0]);
+ retval = spidev_message(any_data->spidata,ioc1,n_ioc);
+ msleep(2000);
+ printk("Value of TX is:%08x\n", any_data->tr->tx_buf);
+ printk("Value of RX is:%08x\n", any_data->tr->rx_buf);
  printk("work handled :%d\n",any_data->print_data);
-
  kfree(any_data);
  }
 static int LPC_probe(struct spi_device *spi)
@@ -317,18 +307,19 @@ static int LPC_probe(struct spi_device *spi)
 
 	struct spidev_data *spidat;
 	struct work_data* my_msg_work;
-	my_msg_work = kmalloc(sizeof(struct work_data), GFP_KERNEL);
-	my_msg_work->print_data = 1;
-
-	my_msg_work->tr=&ioc_tr;
-	my_msg_work->spidata=spidat;
-	INIT_WORK(&my_msg_work->msg_work,msg_thread_handler);
-	schedule_work(&my_msg_work->msg_work);
+  my_msg_work = kmalloc(sizeof(struct work_data), GFP_KERNEL);
 	spidat=kzalloc(sizeof(*spidat),GFP_KERNEL);
 	if(!spidat)
 		return -ENOMEM;
 	spidat->spi=spi;
-
+	struct spi_ioc_transfer ioc_tr={
+  	.rx_buf=rx1,
+  	.tx_buf=tx1,
+  	.len= ARRAY_SIZE(tx1),
+  	.delay_usecs = 0,
+  	.speed_hz = spi->max_speed_hz,
+  	.bits_per_word =spi->bits_per_word
+  };
 	spin_lock_init(&spidat->spi_lock);
 	mutex_init(&spidat->buf_lock);
 	INIT_LIST_HEAD(&spidat->device_entry);
@@ -336,12 +327,13 @@ static int LPC_probe(struct spi_device *spi)
 	unsigned long minor;
 	mutex_lock(&device_list_lock);
 	minor=find_first_zero_bit(minors,N_SPI_MINORS);
-	if (minor< N_SPI_MINORS){
+	if (minor< N_SPI_MINORS) {
 		struct device *dev;
 		spidat->devt=MKDEV(SPIDEV_MAJOR,minor); //it create dev number
 		dev =device_create(spidev_class,&spi->dev,spidat->devt,spidat,"lpc1769");
-	status=PTR_ERR_OR_ZERO(dev);
-	}else{
+		status=PTR_ERR_OR_ZERO(dev);
+	}
+	else {
 		dev_dbg(&spi->dev,"no minor available\n");
 		status=-ENODEV;
 	}
@@ -356,11 +348,15 @@ static int LPC_probe(struct spi_device *spi)
 	else
 		kfree(spidat);
 
-
+	my_msg_work->print_data = 1;
+	my_msg_work->spidev = spi;
+  my_msg_work->tr=&ioc_tr;
+	my_msg_work->spidata=spidat;
+	INIT_WORK(&my_msg_work->msg_work,msg_thread_handler);
+	schedule_work(&my_msg_work->msg_work);
 	printk(KERN_EMERG "CS: %d\n",spi->chip_select);
 	printk(KERN_EMERG "LPC Module probed\n");
 	printk("spi->mode: %04x\n",spi->mode);
-
 	return status;
 
 }
@@ -402,163 +398,6 @@ static int __init Init_LPC(void)
 		return 0;
 
 	}
-	static long spidev_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
-{
-	int			err = 0;
-	int			retval = 0;
-	struct spidev_data	*spidev;
-	struct spi_device	*spi;
-	u32			tmp;
-	unsigned		n_ioc;
-	struct spi_ioc_transfer	*ioc;
-	/* Check type and command number */
-	if (_IOC_TYPE(cmd) != SPI_IOC_MAGIC)
-		return -ENOTTY;
-
-	/* Check access direction once here; don't repeat below.
-	 * IOC_DIR is from the user perspective, while access_ok is
-	 * from the kernel perspective; so they look reversed.
-	 */
-	if (_IOC_DIR(cmd) & _IOC_READ)
-		err = !access_ok(VERIFY_WRITE,
-				(void __user *)arg, _IOC_SIZE(cmd));
-	if (err == 0 && _IOC_DIR(cmd) & _IOC_WRITE)
-		err = !access_ok(VERIFY_READ,
-				(void __user *)arg, _IOC_SIZE(cmd));
-	if (err)
-		return -EFAULT;
-
-	/* guard against device removal before, or while,
-	 * we issue this ioctl.
-	 */
-	spidev = filp->private_data;
-	spin_lock_irq(&spidev->spi_lock);
-	spi = spi_dev_get(spidev->spi);
-	spin_unlock_irq(&spidev->spi_lock);
-
-	if (spi == NULL)
-		return -ESHUTDOWN;
-
-	/* use the buffer lock here for triple duty:
-	 *  - prevent I/O (from us) so calling spi_setup() is safe;
-	 *  - prevent concurrent SPI_IOC_WR_* from morphing
-	 *    data fields while SPI_IOC_RD_* reads them;
-	 *  - SPI_IOC_MESSAGE needs the buffer locked "normally".
-	 */
-	mutex_lock(&spidev->buf_lock);
-
-	switch (cmd) {
-	/* read requests */
-	case SPI_IOC_RD_MODE:
-		retval = __put_user(spi->mode & SPI_MODE_MASK,
-					(__u8 __user *)arg);
-		break;
-	case SPI_IOC_RD_MODE32:
-		retval = __put_user(spi->mode & SPI_MODE_MASK,
-					(__u32 __user *)arg);
-		break;
-	case SPI_IOC_RD_LSB_FIRST:
-		retval = __put_user((spi->mode & SPI_LSB_FIRST) ?  1 : 0,
-					(__u8 __user *)arg);
-		break;
-	case SPI_IOC_RD_BITS_PER_WORD:
-		retval = __put_user(spi->bits_per_word, (__u8 __user *)arg);
-		break;
-	case SPI_IOC_RD_MAX_SPEED_HZ:
-		retval = __put_user(spidev->speed_hz, (__u32 __user *)arg);
-		break;
-
-	/* write requests */
-	case SPI_IOC_WR_MODE:
-	case SPI_IOC_WR_MODE32:
-		if (cmd == SPI_IOC_WR_MODE)
-			retval = __get_user(tmp, (u8 __user *)arg);
-		else
-			retval = __get_user(tmp, (u32 __user *)arg);
-		if (retval == 0) {
-			u32	save = spi->mode;
-
-			if (tmp & ~SPI_MODE_MASK) {
-				retval = -EINVAL;
-				break;
-			}
-
-			tmp |= spi->mode & ~SPI_MODE_MASK;
-			spi->mode = (u16)tmp;
-			retval = spi_setup(spi);
-			if (retval < 0)
-				spi->mode = save;
-			else
-				dev_dbg(&spi->dev, "spi mode %x\n", tmp);
-		}
-		break;
-	case SPI_IOC_WR_LSB_FIRST:
-		retval = __get_user(tmp, (__u8 __user *)arg);
-		if (retval == 0) {
-			u32	save = spi->mode;
-
-			if (tmp)
-				spi->mode |= SPI_LSB_FIRST;
-			else
-				spi->mode &= ~SPI_LSB_FIRST;
-			retval = spi_setup(spi);
-			if (retval < 0)
-				spi->mode = save;
-			else
-				dev_dbg(&spi->dev, "%csb first\n",
-						tmp ? 'l' : 'm');
-		}
-		break;
-	case SPI_IOC_WR_BITS_PER_WORD:
-		retval = __get_user(tmp, (__u8 __user *)arg);
-		if (retval == 0) {
-			u8	save = spi->bits_per_word;
-
-			spi->bits_per_word = tmp;
-			retval = spi_setup(spi);
-			if (retval < 0)
-				spi->bits_per_word = save;
-			else
-				dev_dbg(&spi->dev, "%d bits per word\n", tmp);
-		}
-		break;
-	case SPI_IOC_WR_MAX_SPEED_HZ:
-		retval = __get_user(tmp, (__u32 __user *)arg);
-		if (retval == 0) {
-			u32	save = spi->max_speed_hz;
-
-			spi->max_speed_hz = tmp;
-			retval = spi_setup(spi);
-			if (retval >= 0)
-				spidev->speed_hz = tmp;
-			else
-				dev_dbg(&spi->dev, "%d Hz (max)\n", tmp);
-			spi->max_speed_hz = save;
-		}
-		break;
-
-	default:
-		/* segmented and/or full-duplex I/O request */
-		/* Check message and copy into scratch area */
-		ioc = spidev_get_ioc_message(cmd,
-				(struct spi_ioc_transfer __user *)arg, &n_ioc); //here we can see that it is type casted to spi_ioc_transfer and needs to be converted to kenrel spcace.
-		if (IS_ERR(ioc)) {
-			retval = PTR_ERR(ioc);
-			break;
-		}
-		if (!ioc)
-			break;	/* n_ioc is also 0 */
-
-		/* translate to spi_message, execute */
-		retval = spidev_message(spidev, ioc, n_ioc);
-		kfree(ioc);
-		break;
-	}
-
-	mutex_unlock(&spidev->buf_lock);
-	spi_dev_put(spi);
-	return retval;
-}
 
 
 static void __exit Exit_LPC(void)
