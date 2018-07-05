@@ -91,163 +91,8 @@ static struct spi_ioc_transfer * spidev_get_ioc_message(unsigned int cmd,struct 
 	return ioc;
 }
 
-static long spidev_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
-{
-	int			err = 0;
-	int			retval = 0;
-	struct spidev_data	*spidev;
-	struct spi_device	*spi;
-	u32			tmp;
-	unsigned		n_ioc;
-	struct spi_ioc_transfer	*ioc;
-	/* Check type and command number */
-	if (_IOC_TYPE(cmd) != SPI_IOC_MAGIC)
-		return -ENOTTY;
 
-	/* Check access direction once here; don't repeat below.
-	 * IOC_DIR is from the user perspective, while access_ok is
-	 * from the kernel perspective; so they look reversed.
-	 */
-	if (_IOC_DIR(cmd) & _IOC_READ)
-		err = !access_ok(VERIFY_WRITE,
-				(void __user *)arg, _IOC_SIZE(cmd));
-	if (err == 0 && _IOC_DIR(cmd) & _IOC_WRITE)
-		err = !access_ok(VERIFY_READ,
-				(void __user *)arg, _IOC_SIZE(cmd));
-	if (err)
-		return -EFAULT;
 
-	/* guard against device removal before, or while,
-	 * we issue this ioctl.
-	 */
-	spidev = filp->private_data;
-	spin_lock_irq(&spidev->spi_lock);
-	spi = spi_dev_get(spidev->spi);
-	spin_unlock_irq(&spidev->spi_lock);
-
-	if (spi == NULL)
-		return -ESHUTDOWN;
-
-	/* use the buffer lock here for triple duty:
-	 *  - prevent I/O (from us) so calling spi_setup() is safe;
-	 *  - prevent concurrent SPI_IOC_WR_* from morphing
-	 *    data fields while SPI_IOC_RD_* reads them;
-	 *  - SPI_IOC_MESSAGE needs the buffer locked "normally".
-	 */
-	mutex_lock(&spidev->buf_lock);
-
-	switch (cmd) {
-	/* read requests */
-	case SPI_IOC_RD_MODE:
-		retval = __put_user(spi->mode & SPI_MODE_MASK,
-					(__u8 __user *)arg);
-		break;
-	case SPI_IOC_RD_MODE32:
-		retval = __put_user(spi->mode & SPI_MODE_MASK,
-					(__u32 __user *)arg);
-		break;
-	case SPI_IOC_RD_LSB_FIRST:
-		retval = __put_user((spi->mode & SPI_LSB_FIRST) ?  1 : 0,
-					(__u8 __user *)arg);
-		break;
-	case SPI_IOC_RD_BITS_PER_WORD:
-		retval = __put_user(spi->bits_per_word, (__u8 __user *)arg);
-		break;
-	case SPI_IOC_RD_MAX_SPEED_HZ:
-		retval = __put_user(spidev->speed_hz, (__u32 __user *)arg);
-		break;
-
-	/* write requests */
-	case SPI_IOC_WR_MODE:
-	case SPI_IOC_WR_MODE32:
-		if (cmd == SPI_IOC_WR_MODE)
-			retval = __get_user(tmp, (u8 __user *)arg);
-		else
-			retval = __get_user(tmp, (u32 __user *)arg);
-		if (retval == 0) {
-			u32	save = spi->mode;
-
-			if (tmp & ~SPI_MODE_MASK) {
-				retval = -EINVAL;
-				break;
-			}
-
-			tmp |= spi->mode & ~SPI_MODE_MASK;
-			spi->mode = (u16)tmp;
-			retval = spi_setup(spi);
-			if (retval < 0)
-				spi->mode = save;
-			else
-				dev_dbg(&spi->dev, "spi mode %x\n", tmp);
-		}
-		break;
-	case SPI_IOC_WR_LSB_FIRST:
-		retval = __get_user(tmp, (__u8 __user *)arg);
-		if (retval == 0) {
-			u32	save = spi->mode;
-
-			if (tmp)
-				spi->mode |= SPI_LSB_FIRST;
-			else
-				spi->mode &= ~SPI_LSB_FIRST;
-			retval = spi_setup(spi);
-			if (retval < 0)
-				spi->mode = save;
-			else
-				dev_dbg(&spi->dev, "%csb first\n",
-						tmp ? 'l' : 'm');
-		}
-		break;
-	case SPI_IOC_WR_BITS_PER_WORD:
-		retval = __get_user(tmp, (__u8 __user *)arg);
-		if (retval == 0) {
-			u8	save = spi->bits_per_word;
-
-			spi->bits_per_word = tmp;
-			retval = spi_setup(spi);
-			if (retval < 0)
-				spi->bits_per_word = save;
-			else
-				dev_dbg(&spi->dev, "%d bits per word\n", tmp);
-		}
-		break;
-	case SPI_IOC_WR_MAX_SPEED_HZ:
-		retval = __get_user(tmp, (__u32 __user *)arg);
-		if (retval == 0) {
-			u32	save = spi->max_speed_hz;
-
-			spi->max_speed_hz = tmp;
-			retval = spi_setup(spi);
-			if (retval >= 0)
-				spidev->speed_hz = tmp;
-			else
-				dev_dbg(&spi->dev, "%d Hz (max)\n", tmp);
-			spi->max_speed_hz = save;
-		}
-		break;
-
-	default:
-		/* segmented and/or full-duplex I/O request */
-		/* Check message and copy into scratch area */
-		ioc = spidev_get_ioc_message(cmd,
-				(struct spi_ioc_transfer __user *)arg, &n_ioc); //here we can see that it is type casted to spi_ioc_transfer and needs to be converted to kenrel spcace.
-		if (IS_ERR(ioc)) {
-			retval = PTR_ERR(ioc);
-			break;
-		}
-		if (!ioc)
-			break;	/* n_ioc is also 0 */
-
-		/* translate to spi_message, execute */
-		retval = spidev_message(spidev, ioc, n_ioc);
-		kfree(ioc);
-		break;
-	}
-
-	mutex_unlock(&spidev->buf_lock);
-	spi_dev_put(spi);
-	return retval;
-}
 
 
 static int spidev_message(struct spidev_data *spidev,struct spi_ioc_transfer *u_xfers, unsigned n_xfers)
@@ -556,6 +401,164 @@ static int __init Init_LPC(void)
 		return 0;
 
 	}
+	static long spidev_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
+{
+	int			err = 0;
+	int			retval = 0;
+	struct spidev_data	*spidev;
+	struct spi_device	*spi;
+	u32			tmp;
+	unsigned		n_ioc;
+	struct spi_ioc_transfer	*ioc;
+	/* Check type and command number */
+	if (_IOC_TYPE(cmd) != SPI_IOC_MAGIC)
+		return -ENOTTY;
+
+	/* Check access direction once here; don't repeat below.
+	 * IOC_DIR is from the user perspective, while access_ok is
+	 * from the kernel perspective; so they look reversed.
+	 */
+	if (_IOC_DIR(cmd) & _IOC_READ)
+		err = !access_ok(VERIFY_WRITE,
+				(void __user *)arg, _IOC_SIZE(cmd));
+	if (err == 0 && _IOC_DIR(cmd) & _IOC_WRITE)
+		err = !access_ok(VERIFY_READ,
+				(void __user *)arg, _IOC_SIZE(cmd));
+	if (err)
+		return -EFAULT;
+
+	/* guard against device removal before, or while,
+	 * we issue this ioctl.
+	 */
+	spidev = filp->private_data;
+	spin_lock_irq(&spidev->spi_lock);
+	spi = spi_dev_get(spidev->spi);
+	spin_unlock_irq(&spidev->spi_lock);
+
+	if (spi == NULL)
+		return -ESHUTDOWN;
+
+	/* use the buffer lock here for triple duty:
+	 *  - prevent I/O (from us) so calling spi_setup() is safe;
+	 *  - prevent concurrent SPI_IOC_WR_* from morphing
+	 *    data fields while SPI_IOC_RD_* reads them;
+	 *  - SPI_IOC_MESSAGE needs the buffer locked "normally".
+	 */
+	mutex_lock(&spidev->buf_lock);
+
+	switch (cmd) {
+	/* read requests */
+	case SPI_IOC_RD_MODE:
+		retval = __put_user(spi->mode & SPI_MODE_MASK,
+					(__u8 __user *)arg);
+		break;
+	case SPI_IOC_RD_MODE32:
+		retval = __put_user(spi->mode & SPI_MODE_MASK,
+					(__u32 __user *)arg);
+		break;
+	case SPI_IOC_RD_LSB_FIRST:
+		retval = __put_user((spi->mode & SPI_LSB_FIRST) ?  1 : 0,
+					(__u8 __user *)arg);
+		break;
+	case SPI_IOC_RD_BITS_PER_WORD:
+		retval = __put_user(spi->bits_per_word, (__u8 __user *)arg);
+		break;
+	case SPI_IOC_RD_MAX_SPEED_HZ:
+		retval = __put_user(spidev->speed_hz, (__u32 __user *)arg);
+		break;
+
+	/* write requests */
+	case SPI_IOC_WR_MODE:
+	case SPI_IOC_WR_MODE32:
+		if (cmd == SPI_IOC_WR_MODE)
+			retval = __get_user(tmp, (u8 __user *)arg);
+		else
+			retval = __get_user(tmp, (u32 __user *)arg);
+		if (retval == 0) {
+			u32	save = spi->mode;
+
+			if (tmp & ~SPI_MODE_MASK) {
+				retval = -EINVAL;
+				break;
+			}
+
+			tmp |= spi->mode & ~SPI_MODE_MASK;
+			spi->mode = (u16)tmp;
+			retval = spi_setup(spi);
+			if (retval < 0)
+				spi->mode = save;
+			else
+				dev_dbg(&spi->dev, "spi mode %x\n", tmp);
+		}
+		break;
+	case SPI_IOC_WR_LSB_FIRST:
+		retval = __get_user(tmp, (__u8 __user *)arg);
+		if (retval == 0) {
+			u32	save = spi->mode;
+
+			if (tmp)
+				spi->mode |= SPI_LSB_FIRST;
+			else
+				spi->mode &= ~SPI_LSB_FIRST;
+			retval = spi_setup(spi);
+			if (retval < 0)
+				spi->mode = save;
+			else
+				dev_dbg(&spi->dev, "%csb first\n",
+						tmp ? 'l' : 'm');
+		}
+		break;
+	case SPI_IOC_WR_BITS_PER_WORD:
+		retval = __get_user(tmp, (__u8 __user *)arg);
+		if (retval == 0) {
+			u8	save = spi->bits_per_word;
+
+			spi->bits_per_word = tmp;
+			retval = spi_setup(spi);
+			if (retval < 0)
+				spi->bits_per_word = save;
+			else
+				dev_dbg(&spi->dev, "%d bits per word\n", tmp);
+		}
+		break;
+	case SPI_IOC_WR_MAX_SPEED_HZ:
+		retval = __get_user(tmp, (__u32 __user *)arg);
+		if (retval == 0) {
+			u32	save = spi->max_speed_hz;
+
+			spi->max_speed_hz = tmp;
+			retval = spi_setup(spi);
+			if (retval >= 0)
+				spidev->speed_hz = tmp;
+			else
+				dev_dbg(&spi->dev, "%d Hz (max)\n", tmp);
+			spi->max_speed_hz = save;
+		}
+		break;
+
+	default:
+		/* segmented and/or full-duplex I/O request */
+		/* Check message and copy into scratch area */
+		ioc = spidev_get_ioc_message(cmd,
+				(struct spi_ioc_transfer __user *)arg, &n_ioc); //here we can see that it is type casted to spi_ioc_transfer and needs to be converted to kenrel spcace.
+		if (IS_ERR(ioc)) {
+			retval = PTR_ERR(ioc);
+			break;
+		}
+		if (!ioc)
+			break;	/* n_ioc is also 0 */
+
+		/* translate to spi_message, execute */
+		retval = spidev_message(spidev, ioc, n_ioc);
+		kfree(ioc);
+		break;
+	}
+
+	mutex_unlock(&spidev->buf_lock);
+	spi_dev_put(spi);
+	return retval;
+}
+
 
 static void __exit Exit_LPC(void)
 	{
