@@ -16,7 +16,7 @@ static void pabort(const char *s)
 	abort();
 }
 
-static const char *device = "/dev/spidev1.0";
+static const char *device = "/dev/spidev0.0";
 static uint8_t mode;
 static uint8_t bits = 8;
 static uint32_t speed = 500000;
@@ -51,7 +51,8 @@ static void transfer(int fd)
 	for (ret = 0; ret < ARRAY_SIZE(tx); ret++) {
 		if (!(ret % 6))
 			puts("");
-		printf("%.2X ", rx[ret]);
+		printf("rx: %.2X ", rx[ret]);
+		printf("tx:%.2X ", tx[ret]);
 	}
 	puts("");
 }

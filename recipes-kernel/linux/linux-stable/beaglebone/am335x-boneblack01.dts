@@ -27,7 +27,6 @@
 	};
 };
 
-
 &am33xx_pinmux {
         spi0_pins_s0:spi0_pins_s0 {
                 pinctrl-single,pins = <
@@ -37,16 +36,42 @@
                                 0x15c 0x10
                                 >;
                         };
-                };
+        spi1_pins_s0: spi1_pins_s0 {
+                pinctrl-single,pins = <
+                               0x190 0x33      /* mcasp0_aclkx.spi1_sclk, INPUT_PULLUP | MODE3 */
+                               0x194 0x33      /* mcasp0_fsx.spi1_d0, INPUT_PULLUP | MODE3 */
+                               0x198 0x13      /* mcasp0_axr0.spi1_d1, OUTPUT_PULLUP | MODE3 */
+                               0x19c 0x13      /* mcasp0_ahclkr.spi1_cs0, OUTPUT_PULLUP | MODE3 */
+                               >;
+                        };
+
+              };
 &spi0 {
-        #address-cells = <1>;
-        #size-cells = <0>;
+
         status = "okay";
         pinctrl-name = "default";
         pinctrl-0 = <&spi0_pins_s0>;
         spidev@0 {
                 spi-max-frequency = <24000000>;
                 reg = <0>;
+                compatible = "linux,spidev";
+        };
+        spidev@1 {
+                spi-max-frequency = <24000000>;
+                reg = <1>;
                 compatible = "linux,lpcspi";
         };
+};
+
+&spi1 {
+        status ="okay";
+        pinctrl-name = "default";
+        pinctrl-0 = <&spi1_pins_s0>;
+        spidev@0 {
+                spi-max-frequency = <24000000>;
+                reg = <0>;
+                compatible = "linux,spidev";
+        };
+
+
 };
